@@ -1,8 +1,6 @@
 "use client";
-
-import Appbar from "@/components/Appbar";
-import { Button } from "@/components/ui/button";
-import FeatureCard from "@/components/featureCard";
+import Appbar from "@/app/components/Appbar";
+import FeatureCard from "@/app/components/featureCard";
 
 export default function Home() {
   return (
@@ -11,7 +9,7 @@ export default function Home() {
         <Appbar />
 
         {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center gap-4 py-15 px-6">
+        <div className="flex flex-col items-center justify-center gap-10 py-15 lg:pt-20  px-6">
           <h1 className="text-5xl font-semibold text-center leading-tight text-neutral-200">
             Elevate Your English with AI-Powered Conversations
           </h1>
@@ -21,9 +19,9 @@ export default function Home() {
             <span className="text-blue-500">fluency</span>, and{" "}
             <span className="text-yellow-500">confidence</span>.
           </h2>
-          <div className="flex flex-row items-center justify-center gap-5 pt-8">
+          <div className="flex flex-row items-center justify-center gap-5 pt-20">
             <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border text-black bg-white py-2 px-5">
-              <a role="button" href="/dashboard">
+              <a role="button" href="/discover">
                 Get Started
               </a>
             </div>
@@ -36,7 +34,7 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <h1 className="text-3xl font-semibold text-center text-white">
+        <h1 className="text-3xl font-semibold text-center pt-15 text-white">
           Key Features
         </h1>
         <div className="flex flex-wrap items-center justify-center w-full gap-5 text-white">

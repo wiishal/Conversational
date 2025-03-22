@@ -1,7 +1,5 @@
-import Loading from "@/components/Loading";
+import Loading from "@/app/components/ui/Loading";
 
 export default function Login() {
-  return (
-    <Loading/>
-  );
+  return <Loading />;
 }
