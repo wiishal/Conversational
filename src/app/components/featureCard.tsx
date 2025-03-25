@@ -8,7 +8,7 @@ export default function FeatureCard({
   details: string;
 }): JSX.Element {
   return (
-    <div className="border h-60 w-80 flex flex-col items-center justify-center hover:border-blue-800 transition-all e">
+    <div className="border flex flex-col items-center justify-center hover:border-blue-800 transition-all e">
       <div className="flex h-1/2 items-center border-amber-500">
         <p className="text-2xl font-medium text-center m-2 capitalize">
           {title}

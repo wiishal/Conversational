@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { bots } from "@/app/types/type";
 import BotCard from "./BotCard";
 import { getBotController } from "@/app/controllers/controller.bot";
+import Loading from "../ui/Loading";
+import { BotsData } from "@/app/types/type";
 
 export default function RenderBots() {
   const [botsData, setBotsData] = useState<BotsData | null>(null);
@@ -24,14 +25,7 @@ export default function RenderBots() {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-pulse flex flex-col items-center">
-          <div className="h-8 w-8 bg-blue-400 rounded-full animate-spin mb-4"></div>
-          <p className="text-accent">Loading bots...</p>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
@@ -51,22 +45,22 @@ export default function RenderBots() {
   const categories = [
     {
       id: "interview",
-      title: "Interview Bots",
+      title: "Interview ",
       description: "Practice for your next job interview",
     },
     {
       id: "personality",
-      title: "Personality Bots",
+      title: "Personality ",
       description: "Chat with different personality types",
     },
     {
       id: "mythology",
-      title: "Mythology Bots",
+      title: "Mythology ",
       description: "Learn from legendary figures",
     },
     {
       id: "communication",
-      title: "Communication Bots",
+      title: "Communication ",
       description: "Improve your communication skills",
     },
   ];
@@ -79,9 +73,7 @@ export default function RenderBots() {
             botsData[category.id as keyof BotsData]?.length > 0 && (
               <section key={category.id} className="space-y-4">
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold">
-                    {category.title}
-                  </h2>
+                  <h2 className="text-2xl font-bold">{category.title}</h2>
                   <p className="">{category.description}</p>
                 </div>
 
@@ -95,11 +87,4 @@ export default function RenderBots() {
         )}
     </div>
   );
-}
-
-interface BotsData {
-  communication: bots[];
-  interview: bots[];
-  personality: bots[];
-  mythology: bots[];
 }

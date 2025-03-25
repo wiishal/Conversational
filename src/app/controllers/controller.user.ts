@@ -20,16 +20,16 @@ export async function sendMsgController(
   botId: string,
   usermsg: string,
   conversationId: string
-) {
-    if(!conversationId) return false 
-    try {
-      const responce = await sendMsg(botId,usermsg,conversationId);
-      if (!responce) {
-        return false;
-      }
-      return responce;
-    } catch (error) {
-      console.log(error);
+): Promise<AxiosResponse | false> {
+  if (!conversationId) return false;
+  try {
+    const responce = await sendMsg(botId, usermsg, conversationId);
+    if (!responce) {
       return false;
     }
+    return responce;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }

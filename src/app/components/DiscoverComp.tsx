@@ -1,6 +1,5 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import { ModeToggle } from "./ui/toggle";
 import RenderBots from "./discover/RenderBots";
 
 export default function DiscoverComp() {

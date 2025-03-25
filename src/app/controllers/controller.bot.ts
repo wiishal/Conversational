@@ -1,7 +1,6 @@
-import { getBots } from "../services/services.bot";
-import { ebotType } from "../types/enum";
-import { botsData } from "../types/type";
-import { botarr } from "../util/bots";
+import { getAnalysis, getBots } from "../services/service.user";
+import { Message } from "../types/type";
+
 
 export async function getBotController() {
   try {
@@ -13,37 +12,20 @@ export async function getBotController() {
     }
 
     return res.data.bots;
-
   } catch (error) {
     alert("error during fetching bots");
     console.error(error);
     return [];
   }
 }
-export function organizeBotsByType(): botsData {
-  const organized: botsData = {
-    interview: [],
-    personality: [],
-    mythology: [],
-    communication: [],
-  };
 
-  botarr.forEach((bot) => {
-    switch (bot.type) {
-      case ebotType.interviewer:
-        organized.interview.push(bot);
-        break;
-      case ebotType.personality:
-        organized.personality.push(bot);
-        break;
-      case ebotType.mythology:
-        organized.mythology.push(bot);
-        break;
-      case ebotType.communication:
-        organized.communication.push(bot);
-        break;
-    }
-  });
-
-  return organized;
+export async function getAnalysisController(chat:Message[]) {
+  try {
+    const responce = await getAnalysis(chat)
+    if(!responce) return false
+    return responce
+  } catch (error) {
+    console.error("Error while getting analysis",error)
+    return false
+  }
 }

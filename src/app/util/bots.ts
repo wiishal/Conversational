@@ -2,7 +2,6 @@ import { ebotType, etag } from "../types/enum";
 import { bots } from "../types/type";
 
 export const botarr: bots[] = [
-  // Interview Bots
   {
     id: "tech-recruiter",
     name: "TechXpert Interviewer",
@@ -116,41 +115,40 @@ export const botarr: bots[] = [
     avatarColor: "#D97706",
   },
 
-  // Communication Bots
+
   {
-    id: "negotiation-master",
-    name: "Deal Closer",
+    id: "casual-conversation",
+    name: "ChatterMate",
     description:
-      "Teaches advanced negotiation tactics through simulated scenarios, helping you secure better outcomes in business and personal situations.",
-    tag: etag.trending,
+      "Improve your everyday English fluency with fun, casual conversations and real-life scenarios.",
+    tag: etag.popular,
     type: ebotType.communication,
-    avatarColor: "#06B6D4",
-  },
-  {
-    id: "public-speaking",
-    name: "Stage Presence",
-    description:
-      "Transforms your presentation skills with personalized feedback on delivery, structure, and audience engagement techniques.",
-    tag: etag.famous,
-    type: ebotType.communication,
-    avatarColor: "#8B5CF6",
-  },
-  {
-    id: "conflict-resolver",
-    name: "Peace Broker",
-    description:
-      "Specializes in difficult conversations and conflict resolution, teaching you to navigate tensions while preserving relationships.",
-    tag: etag.new,
-    type: ebotType.communication,
-    avatarColor: "#F97316",
+    avatarColor: "#EC4899",
   },
   {
     id: "leadership-coach",
     name: "Vision Catalyst",
-    description:
-      "Develops your leadership communication style through executive-level coaching on inspiration, influence, and strategic messaging.",
+    description: "Develop your communication skills from beginner level.",
     tag: etag.popular,
     type: ebotType.communication,
     avatarColor: "#4ADE80",
+  },
+  {
+    id: "english-coach",
+    name: "FluentTalk",
+    description:
+      "Helps you develop English communication skills through interactive conversations, pronunciation practice, and vocabulary-building exercises.",
+    tag: etag.trending,
+    type: ebotType.communication,
+    avatarColor: "#1E40AF",
+  },
+  {
+    id: "business-english",
+    name: "BizSpeak Pro",
+    description:
+      "Enhance your business communication skills with formal email writing, meetings, and professional conversation practice.",
+    tag: etag.new,
+    type: ebotType.communication,
+    avatarColor: "#F59E0B",
   },
 ];

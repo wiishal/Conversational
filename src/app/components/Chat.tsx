@@ -7,11 +7,12 @@ import {
 } from "../controllers/controller.user";
 import ChatLoading from "./ui/ChatLoading";
 import UserInputForm from "./UserInputForm";
+import AnalysisChat from "./AnalysisChat";
+import { ebotType } from "../types/enum";
+import { Button } from "./ui/button";
+import { Message } from "../types/type";
 
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
+
 
 interface ChatInterfaceProps {
   botId: string;
@@ -24,6 +25,10 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [bot, setBot] = useState<{ name: string; type: ebotType }>({
+    name: "",
+    type: ebotType.interviewer,
+  });
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -38,7 +43,9 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
     try {
       const response = await initializeChatController(botId);
       if (!response) return alert("something went wrong");
+      console.log(response);
       setConversationId(response.data.conversationId);
+      setBot(response.data.bot);
       setMessages([{ role: "assistant", content: response.data.aiMsg }]);
     } catch (error) {
       console.error("Error initializing chat:", error);
@@ -65,12 +72,8 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
         conversationId
       );
       if (!response) return alert("something went wrong");
-
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: response.data.aiMsg },
-      ]);
-
+      const reply = response.data.aiMsg.replace(/\*/g, "");
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prev) => [
@@ -86,11 +89,21 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
   }
 
   return (
-    <div className="flex flex-row h-[85vh] h-full  gap-4 lg:p-4 max-w-7xl mx-auto justify-center">
-      {/* Chat Section - Left Side */}
+    <div className="flex flex-row  h-full  gap-4 lg:p-4 max-w-7xl mx-auto justify-center transition-all ease-in-out">
       <div className="flex flex-col lg:w-2/3 w-full h-full border rounded-lg shadow-md text-sm">
+        <div className="p-2 border flex flex-row justify-between items-center">
+          <p className="font-medium">{bot?.name}</p>
+          {ebotType[bot?.type] == "communication" && (
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              onClick={() => setAnalysisData(true)}
+            >
+              Get Analysis
+            </Button>
+          )}
+        </div>
         <div className="overflow-y-auto p-4 lg:space-y-4 flex-grow">
-
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -99,11 +112,15 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
               }`}
             >
               <div
-                className={`max-w-[70%] px-4 py-2 rounded-lg ${
+                style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
+                className={`max-w-[70%] px-4 py-2 rounded-lg cursor-pointer hover:outline-none hover:ring-2 hover:ring-blue-300 ${
                   msg.role === "user"
                     ? "bg-blue-500 text-white rounded-br-none"
                     : "bg-accent  rounded-bl-none"
                 }`}
+                onClick={() => {
+                  setAnalysisData(true);
+                }}
               >
                 {msg.content}
               </div>
@@ -122,23 +139,12 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
           setInput={setInput}
           isLoading={isLoading}
         />
-        
       </div>
 
       {/* Analysis Section - Right Side */}
-      {/* <div className="w-1/3 h-full border rounded-lg shadow-md bg-white p-4 overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4 text-gray-800 border-b pb-2">
-          Conversation Analysis
-        </h2>
-
-        {analysisData ? (
-          <div className="space-y-6">hii</div>
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-gray-500">No analysis data available</p>
-          </div>
-        )}
-      </div> */}
+      {analysisData && ebotType[bot?.type] == "communication" ? (
+        <AnalysisChat messages={messages} setAnalysisData={setAnalysisData} />
+      ) : null}
     </div>
   );
 }

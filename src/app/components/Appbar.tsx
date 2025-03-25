@@ -9,11 +9,9 @@ export default function Appbar(): JSX.Element {
         <li>
           <a href="/docs">docs</a>
         </li>
-        <li>Api</li>
         <li>
           <a href="/login">login</a>
         </li>
-        <li>sign</li>
       </ul>
     </div>
   );

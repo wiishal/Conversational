@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { ModeToggle } from "./toggle";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 
 export default function Sidebar(): JSX.Element {
   return (
@@ -9,7 +9,10 @@ export default function Sidebar(): JSX.Element {
         <h1 className="text-xl font-medium text-blue-700 pl-3 ">
           Conversational
         </h1>
-        <ModeToggle />
+
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
       <div className=" border-amber-400 p-4">
         <ul className="flex flex-col">
@@ -31,6 +34,28 @@ export default function Sidebar(): JSX.Element {
               </svg>
 
               <p>Discover</p>
+            </a>
+          </li>
+          <li className="p-3">
+            <a
+              className="flex flex-row items-center gap-3"
+              href="/discover/learn"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+                />
+              </svg>
+              <p>Learn</p>
             </a>
           </li>
           <li className=" p-3">

@@ -6,11 +6,16 @@ export interface bots {
   description: string;
   tag: etag;
   type: ebotType;
-  avatarColor?: string; // Optional prop for visual variety
+  avatarColor?: string;
 }
-export interface botsData {
+export interface BotsData {
   communication: bots[];
   interview: bots[];
   personality: bots[];
   mythology: bots[];
+}
+
+export interface Message {
+  role: "user" | "assistant";
+  content: string;
 }

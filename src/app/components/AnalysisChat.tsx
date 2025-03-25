@@ -40,7 +40,7 @@ export default function AnalysisChat({
           Conversation Analysis
         </h2>
         <Button
-          variant="destructive"
+          variant="outline"
           className=" mb-4 border-b pb-2 border p-2 text-sm"
           onClick={() => setAnalysisData(null)}
         >
