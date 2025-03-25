@@ -1,7 +1,7 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ebotType } from "../types/enum";
-import { botsData } from "../types/type";
 import { botarr } from "../util/bots";
+import { BotsData } from "../types/type";
 
 export const llm = new ChatGoogleGenerativeAI({
     model: "gemini-1.5-pro",
@@ -10,8 +10,8 @@ export const llm = new ChatGoogleGenerativeAI({
     apiKey: process.env.GOOGLE_API_KEY,
   });
 
-export function organizeBotsByType(): botsData {
-  const organized: botsData = {
+export function organizeBotsByType(): BotsData {
+  const organized: BotsData = {
     interview: [],
     personality: [],
     mythology: [],

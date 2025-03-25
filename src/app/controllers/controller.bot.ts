@@ -1,7 +1,6 @@
 import { getAnalysis, getBots } from "../services/service.user";
 import { Message } from "../types/type";
 
-
 export async function getBotController() {
   try {
     const res = await getBots();
@@ -19,13 +18,15 @@ export async function getBotController() {
   }
 }
 
-export async function getAnalysisController(chat:Message[]) {
+export async function getAnalysisController(msg: Message[]) {
+  if (!msg) return false;
+  const chat = JSON.stringify(msg);
   try {
-    const responce = await getAnalysis(chat)
-    if(!responce) return false
-    return responce
+    const responce = await getAnalysis(chat);
+    if (!responce) return false;
+    return responce;
   } catch (error) {
-    console.error("Error while getting analysis",error)
-    return false
+    console.error("Error while getting analysis", error);
+    return false;
   }
 }

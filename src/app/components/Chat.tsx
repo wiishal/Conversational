@@ -12,8 +12,6 @@ import { ebotType } from "../types/enum";
 import { Button } from "./ui/button";
 import { Message } from "../types/type";
 
-
-
 interface ChatInterfaceProps {
   botId: string;
 }
@@ -92,7 +90,7 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
     <div className="flex flex-row  h-full  gap-4 lg:p-4 max-w-7xl mx-auto justify-center transition-all ease-in-out">
       <div className="flex flex-col lg:w-2/3 w-full h-full border rounded-lg shadow-md text-sm">
         <div className="p-2 border flex flex-row justify-between items-center">
-          <p className="font-medium">{bot?.name}</p>
+          <p className="font-medium p-2">{bot?.name}</p>
           {ebotType[bot?.type] == "communication" && (
             <Button
               variant="outline"
@@ -142,9 +140,14 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
       </div>
 
       {/* Analysis Section - Right Side */}
+
       {analysisData && ebotType[bot?.type] == "communication" ? (
-        <AnalysisChat messages={messages} setAnalysisData={setAnalysisData} />
+        <div className="w-1/3 h-full border sm:hidden">
+          <AnalysisChat messages={messages} setAnalysisData={setAnalysisData} />
+        </div>
       ) : null}
+
+      
     </div>
   );
 }

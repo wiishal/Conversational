@@ -11,7 +11,7 @@ export default function AnalysisChat({
   setAnalysisData: Dispatch<any>;
   messages: Message[];
 }) {
-  const [analysis, setAnalysis] = useState("");
+  const [analysis, setAnalysis] = useState("hii");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,12 +27,13 @@ export default function AnalysisChat({
         setIsLoading(false);
       }
     }
-    get();
+    // get();
+    setIsLoading(false);
   }, []);
 
   return (
     <div
-      className="w-1/3 h-full border rounded-lg shadow-md p-4 overflow-y-auto text-sm"
+      className="w-full h-full border rounded-lg shadow-md p-4 overflow-y-auto text-sm"
       style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
     >
       <div className="flex flex-row items-center justify-between">

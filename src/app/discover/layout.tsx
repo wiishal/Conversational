@@ -1,7 +1,5 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
-import Loading from "@/app/components/ui/Loading";
-import LoginAlert from "@/app/components/ui/LoginAlert";
+
 import SideBarRes from "../components/ui/SideBarRes";
 import Sidebar from "../components/ui/Sidebar";
 

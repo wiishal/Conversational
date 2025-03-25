@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Message } from "../types/type";
 
 export async function initializeChat(botId: string) {
   try {
@@ -43,7 +42,7 @@ export async function getBots() {
   }
 }
 
-export async function getAnalysis(chat:Message[]) {
+export async function getAnalysis(chat:string) {
   try {
     const responce = await axios.post("/api/chat/analyse",chat);
     if (!responce) return false;

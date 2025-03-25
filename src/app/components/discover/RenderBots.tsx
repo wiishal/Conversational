@@ -77,7 +77,7 @@ export default function RenderBots() {
                   <p className="">{category.description}</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="flex flex-wrap gap-3 ">
                   {botsData[category.id as keyof BotsData].map((bot) => (
                     <BotCard key={bot.id} bot={bot} />
                   ))}

@@ -1,35 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  ChatPromptTemplate,
-  HumanMessagePromptTemplate,
-  SystemMessagePromptTemplate,
-} from "@langchain/core/prompts";
-import { ConversationChain } from "langchain/chains";
 import { llm } from "@/app/services/services.bot";
 import { AnalysisSYSTEMPrompt } from "@/app/util/prompt";
 
-const promptTemplate = ChatPromptTemplate.fromMessages([
-  SystemMessagePromptTemplate.fromTemplate(AnalysisSYSTEMPrompt),
-  HumanMessagePromptTemplate.fromTemplate("{input}"),
-]);
-
 export async function POST(req: NextRequest) {
   try {
-    const chat = await req.json();
+    const { input } = await req.json();
 
-    const chain = new ConversationChain({
-      llm,
-      prompt: promptTemplate,
-    });
+    // Construct the final input prompt
+    const formattedPrompt = `${AnalysisSYSTEMPrompt}\n\nHuman: ${input}`;
 
-    const response = await chain.invoke({
-      input: `${chat}`,
-    });
-    const aiMsg = response.response || response.output || response.text;
+    // Directly call the LLM
+    const response = await llm.invoke(formattedPrompt);
 
-    return NextResponse.json({
-      aiMsg,
-    });
+    console.log(response);
+    return NextResponse.json({ aiMsg: response });
   } catch (error) {
     console.error("Error generating response:", error);
     return NextResponse.json(

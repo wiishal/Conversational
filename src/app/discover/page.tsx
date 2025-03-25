@@ -9,6 +9,8 @@ export default function Dashboard(): JSX.Element {
 
   if (!isLoaded) return <Loading />;
 
+  
+
   if (!isSignedIn)
     return (
       <div className="flex h-full w-full justify-center items-center">
