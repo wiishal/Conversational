@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-
 import { ConversationChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
 import {
@@ -8,7 +6,9 @@ import {
   HumanMessagePromptTemplate,
   SystemMessagePromptTemplate,
 } from "@langchain/core/prompts";
+
 import { botarr } from "@/app/util/bots";
+import { llm } from "@/app/services/services.bot";
 
 const conversationMemories = new Map();
 
@@ -18,7 +18,7 @@ export async function POST(
 ) {
   const params = await Promise.resolve(context.params);
   const botId = params.bot;
-
+  console.log(params);
   const { message, conversationId } = await req.json();
 
   const botData = botarr.find((b) => b.id === botId);
@@ -26,7 +26,6 @@ export async function POST(
     return NextResponse.json({ error: "Bot not found" }, { status: 404 });
   }
 
-  // Create or retrieve conversation memory
   let memory;
   let currentConversationId = conversationId;
 
@@ -34,33 +33,23 @@ export async function POST(
     !currentConversationId ||
     !conversationMemories.has(currentConversationId)
   ) {
-    // Create a new conversation with Buffer Memory
     memory = new BufferMemory();
     const newConversationId = Date.now().toString();
     conversationMemories.set(newConversationId, memory);
     currentConversationId = newConversationId;
 
-    // Return conversation ID if this is the first message
     if (!conversationId) {
       return NextResponse.json({
         conversationId: currentConversationId,
         aiMsg: `Hello! I'm ${botData.name}. How can I help you today?`,
+        bot: { name: botData.name, type: botData.type },
       });
     }
   } else {
     memory = conversationMemories.get(currentConversationId);
   }
 
-  // Setup LLM
-  const llm = new ChatGoogleGenerativeAI({
-    model: "gemini-1.5-pro",
-    temperature: 0.7,
-    maxRetries: 2,
-    apiKey: process.env.GOOGLE_API_KEY,
-  });
-
   try {
-    // Create a proper prompt template
     const promptTemplate = ChatPromptTemplate.fromMessages([
       SystemMessagePromptTemplate.fromTemplate(
         `You are ${botData.name}. ${botData.description}
@@ -70,14 +59,12 @@ export async function POST(
       HumanMessagePromptTemplate.fromTemplate("{input}"),
     ]);
 
-    // Create conversation chain with memory
     const chain = new ConversationChain({
       llm,
       memory,
       prompt: promptTemplate,
     });
 
-    // Process the message with the conversation chain
     const response = await chain.invoke({ input: message });
     const aiMsg = response.response || response.output || response.text;
 

@@ -1,12 +1,9 @@
-import { organizeBotsByType } from "@/app/controllers/controller.bot";
-import { NextRequest, NextResponse } from "next/server";
+import { organizeBotsByType } from "@/app/services/services.bot";
+import { NextResponse } from "next/server";
 
-
-
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const categorizedBots = organizeBotsByType();
-
     return NextResponse.json({
       status: 200,
       bots: categorizedBots,
