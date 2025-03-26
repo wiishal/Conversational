@@ -27,7 +27,7 @@ export default function AnalysisChat({
         setIsLoading(false);
       }
     }
-    get();
+    // get();
   }, [messages]);
 
   return (
