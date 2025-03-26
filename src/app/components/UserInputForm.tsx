@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 
 export default function UserInputForm({
   sendMessage,
@@ -6,10 +6,10 @@ export default function UserInputForm({
   setInput,
   isLoading,
 }: {
-  sendMessage: any;
-  input: any;
-  setInput: any;
-  isLoading: any;
+  sendMessage: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  input: string;
+  setInput: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
 }) {
   return (
     <form onSubmit={sendMessage} className="border-t p-4 flex">

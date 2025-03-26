@@ -3,7 +3,7 @@ import { SignIn, useUser } from "@clerk/nextjs";
 import RenderBotLearn from "./learn/RenderBotLearn";
 
 export default function LearnComp() {
-  const { user, isSignedIn } = useUser();
+  const { isSignedIn } = useUser();
 
   if (!isSignedIn) return <SignIn routing="hash" />;
   return (

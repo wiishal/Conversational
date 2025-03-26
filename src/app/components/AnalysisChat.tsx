@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { getAnalysisController } from "../controllers/controller.bot";
 import Loading from "./ui/Loading";
@@ -8,7 +8,7 @@ export default function AnalysisChat({
   setAnalysisData,
   messages,
 }: {
-  setAnalysisData: Dispatch<any>;
+  setAnalysisData: Dispatch<SetStateAction<boolean | null>>;
   messages: Message[];
 }) {
   const [analysis, setAnalysis] = useState("");
@@ -18,18 +18,17 @@ export default function AnalysisChat({
     async function get() {
       try {
         const response = await getAnalysisController(messages);
-        if (!response) return alert("failed during getting analysis");
+        if (!response) return alert("Failed during getting analysis");
         setAnalysis(response.data.aiMsg.replace(/\*\s?/g, ""));
-        setIsLoading(false);
       } catch (error) {
-        setAnalysis("soething went wrong");
+        console.error("Analysis fetch error:", error);
+        setAnalysis("Something went wrong");
       } finally {
         setIsLoading(false);
       }
     }
     get();
-    setIsLoading(false);
-  }, []);
+  }, [messages]);
 
   return (
     <div
@@ -42,7 +41,7 @@ export default function AnalysisChat({
         </h2>
         <Button
           variant="outline"
-          className=" mb-4 border-b pb-2 border p-2 text-sm"
+          className="mb-4 border-b pb-2 border p-2 text-sm"
           onClick={() => setAnalysisData(null)}
         >
           Close
