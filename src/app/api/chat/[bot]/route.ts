@@ -14,14 +14,13 @@ const conversationMemories = new Map();
 
 export async function POST(
   req: NextRequest,
-  context: { params: { bot: string } }
+  { params }: { params: { bot: string } }
 ) {
-  const params = await Promise.resolve(context.params);
-  const botId = params.bot;
-  console.log(params);
+  const { bot } = params; // Extract bot ID
+  console.log("Bot ID:", bot);
   const { message, conversationId } = await req.json();
 
-  const botData = botarr.find((b) => b.id === botId);
+  const botData = botarr.find((b) => b.id === bot);
   if (!botData) {
     return NextResponse.json({ error: "Bot not found" }, { status: 404 });
   }
