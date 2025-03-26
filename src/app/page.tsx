@@ -8,7 +8,7 @@ export default function Home() {
         <Appbar />
 
         {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center gap-10 py-15 lg:pt-20">
+        <div className="flex flex-col items-center justify-center gap-10 py-15 lg:pt-20 pt-5 px-4">
           <h1 className="text-5xl font-semibold text-center leading-tight text-neutral-200">
             Elevate Your English with AI-Powered Conversations
           </h1>
@@ -18,7 +18,7 @@ export default function Home() {
             <span className="text-blue-500">fluency</span>, and{" "}
             <span className="text-yellow-500">confidence</span>.
           </h2>
-          <div className="flex flex-row items-center justify-center gap-5 pt-20">
+          <div className="flex flex-row items-center justify-center gap-5 lg:pt-15 p-0">
             <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border text-black bg-white py-2 px-5">
               <a role="button" href="/discover">
                 Get Started

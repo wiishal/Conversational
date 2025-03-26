@@ -142,7 +142,7 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
       {/* Analysis Section - Right Side */}
 
       {analysisData && ebotType[bot?.type] == "communication" ? (
-        <div className="w-1/3 h-full border sm:hidden">
+        <div className="w-1/3 h-full border">
           <AnalysisChat messages={messages} setAnalysisData={setAnalysisData} />
         </div>
       ) : null}
