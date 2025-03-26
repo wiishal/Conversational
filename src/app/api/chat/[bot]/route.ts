@@ -12,15 +12,16 @@ import { llm } from "@/app/services/services.bot";
 
 const conversationMemories = new Map();
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { bot: string } }
-) {
-  const { bot } = params; // Extract bot ID
-  console.log("Bot ID:", bot);
+interface ContextParams {
+  params: { bot: string };
+}
+
+export async function POST(req: NextRequest, { params }: ContextParams) {
+  const botId = params.bot;
+
   const { message, conversationId } = await req.json();
 
-  const botData = botarr.find((b) => b.id === bot);
+  const botData = botarr.find((b) => b.id === botId);
   if (!botData) {
     return NextResponse.json({ error: "Bot not found" }, { status: 404 });
   }
