@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { botsData } from "@/app/types/type";
+import { BotsData } from "@/app/types/type";
 import { getBotController } from "@/app/controllers/controller.bot";
 import BotCard from "../discover/BotCard";
 
 export default function RenderBotLearn() {
-  const [botsData, setBotsData] = useState<botsData | null>(null);
+  const [botsData, setBotsData] = useState<BotsData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -62,7 +62,7 @@ export default function RenderBotLearn() {
       {botsData &&
         categories.map(
           (category) =>
-            botsData[category.id as keyof botsData]?.length > 0 && (
+            botsData[category.id as keyof BotsData]?.length > 0 && (
               <section key={category.id} className="space-y-4">
                 <div className="mb-6">
                   <h2 className="text-2xl font-bold">
@@ -72,7 +72,7 @@ export default function RenderBotLearn() {
                 </div>
 
                 <div className="flex flex-wrap gap-5">
-                  {botsData[category.id as keyof botsData].map((bot) => (
+                  {botsData[category.id as keyof BotsData].map((bot) => (
                     <BotCard key={bot.id} bot={bot} />
                   ))}
                 </div>
