@@ -16,9 +16,10 @@ const conversationMemories = new Map();
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ botId: string }> }
+  { params }: { params: Promise<{ bot: string }> }
 ) {
-  const botId = (await params).botId;
+  let botId = (await params).bot;
+ 
   const { message, conversationId } = await req.json();
 
   const botData = botarr.find((b) => b.id === botId);
