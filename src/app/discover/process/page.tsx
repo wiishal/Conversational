@@ -1,7 +1,6 @@
 "use client";
 import { JSX } from "react";
 import { SignIn, useUser } from "@clerk/nextjs";
-import DashboardUser from "@/app/components/DiscoverComp";
 import Loading from "@/app/components/ui/Loading";
 import ProcessUser from "@/app/components/ProcessUser";
 

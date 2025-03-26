@@ -2,7 +2,7 @@
 import { useUser } from "@clerk/nextjs";
 
 export default function ProcessUser() {
-  const { user, isSignedIn } = useUser();
+  const { isSignedIn } = useUser();
 
   if (!isSignedIn) return <p>Please sign in.</p>;
 

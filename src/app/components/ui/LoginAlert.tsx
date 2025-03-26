@@ -1,5 +1,4 @@
 import { JSX } from "react";
-import Appbar from "../Appbar";
 
 export default function LoginAlert(): JSX.Element {
   return (

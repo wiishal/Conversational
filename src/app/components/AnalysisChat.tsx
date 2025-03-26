@@ -11,7 +11,7 @@ export default function AnalysisChat({
   setAnalysisData: Dispatch<any>;
   messages: Message[];
 }) {
-  const [analysis, setAnalysis] = useState("hii");
+  const [analysis, setAnalysis] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function AnalysisChat({
         setIsLoading(false);
       }
     }
-    // get();
+    get();
     setIsLoading(false);
   }, []);
 

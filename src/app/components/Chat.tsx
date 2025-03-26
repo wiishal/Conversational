@@ -21,7 +21,7 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
   const [input, setInput] = useState<string>("");
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [analysisData, setAnalysisData] = useState<any>(null);
+  const [analysisData, setAnalysisData] = useState<boolean|null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [bot, setBot] = useState<{ name: string; type: ebotType }>({
     name: "",

@@ -1,5 +1,4 @@
 import { JSX } from "react";
-import { ModeToggle } from "./ui/toggle";
 
 export default function Appbar(): JSX.Element {
   return (

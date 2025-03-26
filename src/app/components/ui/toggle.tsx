@@ -7,8 +7,6 @@ import { useTheme } from "next-themes";
 import { Button } from "@/app/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 
