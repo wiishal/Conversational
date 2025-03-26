@@ -12,12 +12,11 @@ import { llm } from "@/app/services/services.bot";
 
 const conversationMemories = new Map();
 
-interface ContextParams {
-  params: { bot: string };
-}
-
-export async function POST(req: NextRequest, { params }: ContextParams) {
-  const botId = params.bot;
+export async function POST(
+  req: NextRequest,
+  context: { params: { bot: string } }
+) {
+  const botId = context.params.bot;
 
   const { message, conversationId } = await req.json();
 
