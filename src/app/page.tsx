@@ -9,9 +9,8 @@ export default function Home() {
 
         {/* Hero Section */}
         <div className="flex flex-col h-full items-center justify-center gap-10  ">
-
           <h1 className="text-5xl font-semibold text-center leading-tight text-neutral-200">
-            Elevate Your English with AI-Powered Conversations
+            Elevate Your Communication with AI-Powered Conversations
           </h1>
           <h2 className="text-lg text-center text-gray-300">
             Practice real-world conversations, sharpen your{" "}
@@ -32,8 +31,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-       
       </div>
     </div>
   );
