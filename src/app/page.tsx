@@ -4,11 +4,12 @@ import Appbar from "@/app/components/Appbar";
 export default function Home() {
   return (
     <div className="flex flex-col items-center min-h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
-      <div className="lg:w-2/3 w-full flex flex-col items-center gap-10">
+      <div className="lg:w-2/3 w-full flex flex-col h-screen items-center ">
         <Appbar />
 
         {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center gap-10 py-15 lg:pt-20 pt-5 px-4">
+        <div className="flex flex-col h-full items-center justify-center gap-10  ">
+
           <h1 className="text-5xl font-semibold text-center leading-tight text-neutral-200">
             Elevate Your English with AI-Powered Conversations
           </h1>

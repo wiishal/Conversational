@@ -2,10 +2,10 @@ import Appbar from "../components/Appbar";
 
 export default function Page() {
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-start lg:p-4 ">
+    <div className="h-screen w-screen flex flex-col items-center justify-start  bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
       {/* App Bar */}
-      <div className="lg:w-3/4 w-full flex items-center justify-center flex-col">
-          <Appbar />
+      <div className="lg:w-2/3 w-full flex items-center justify-center flex-col">
+        <Appbar />
 
         {/* Features Section */}
         <div className="w-full max-w-4xl mt-6 p-6 flex flex-col justify-center items-center  shadow-lg rounded-lg border border-red">
@@ -40,11 +40,8 @@ export default function Page() {
                 dynamic conversations.
               </p>
             </div>
-
-           
           </div>
         </div>
-        
       </div>
     </div>
   );

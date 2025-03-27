@@ -2,7 +2,7 @@ import { JSX } from "react";
 
 export default function Appbar(): JSX.Element {
   return (
-    <div className=" flex flex-row lg:w-full w-3/4 p-5 align-middle justify-between  gap-5 font-medium text-neutral-300 capitalize">
+    <div className=" flex flex-row lg:w-full w-3/4 p-5 align-middle justify-between  gap-5 font-medium text-neutral-300 capitalize border-b-1">
       <h1 className="text-center">
         <a href="/">Conversational</a>
       </h1>
