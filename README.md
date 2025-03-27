@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Conversational AI Chatbot Platform
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Conversational is a **multi-chatbot AI platform** that enables users to interact with different chatbots, each powered by advanced AI models. The platform is built using **LangChain.js** and **Gemini LLM**, ensuring intelligent and context-aware responses.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Multiple Chatbots**: Users can select from different AI chatbots, each tailored for specific interactions.
+- **LangChain.js for AI Processing**: Utilizes LangChain.js to structure and manage AI-powered conversations efficiently.
+- **Gemini LLM Integration**: Provides high-quality, contextually aware responses.
+- **Clerk for Authentication**: Ensures secure user login and session management.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Technology Stack
 
-## Learn More
+- **Frontend**: Next.js with TypeScript
+- **AI Framework**: LangChain.js
+- **Language Model**: Gemini LLM
+- **Authentication**: Clerk
+- **UI Styling**: Tailwind CSS
 
-To learn more about Next.js, take a look at the following resources:
+## Understanding Chatbots & LangChain.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### What is a Chatbot?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A **chatbot** is an AI-driven software application that can simulate human conversation. It processes user inputs and generates meaningful responses based on its training data and algorithms. In this project, multiple chatbots allow users to engage in different types of conversations.
 
-## Deploy on Vercel
+### Role of LangChain.js
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**LangChain.js** is a JavaScript library designed for developing AI-driven applications. It provides:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Prompt Engineering**: Structuring user input for optimal AI understanding.
+- **Memory Management**: Ensuring contextual continuity in responses.
+- **API Integration**: Facilitates communication with large language models (like Gemini).
+
+### How Conversational Uses LangChain.js
+
+1. **User Input Handling**: Processes and cleans user messages.
+2. **LLM Querying**: Sends structured input to Gemini LLM.
+3. **Response Generation**: Returns AI-generated replies to the chat UI.
+4. **Session Control**: Ensures each conversation follows a logical flow.
+
+## Project Structure
+
+- **`src/app/components/`** - Reusable UI components.
+- **`src/app/discover/`** - Frontend routing for different AI sections
+- **`src/app/api/`** - Handles API routes for processing chat interactions.
+- **`src/app/controllers`** - Handles API requests and logic
+- **`src/app/services`** -API calls and external data handling
+- **`src/app/utils/`** - Helper functions for AI processing and UI updates.
+- **`public/`** - Stores static assets such as images and icons.
+
+## Future Enhancements
+
+- Implementing **session-based storage** for temporary message retention.
+- Expanding chatbot personalities for **diverse conversation styles**.
+- Adding a **typing effect** to enhance user experience.
+
+## Get Started
+
+1. Clone the repository: `git clone https://github.com/wiishal/Conversational`
+2. Install dependencies: `npm install`
+3. Run the project: `npm run dev`
+4. Sign in via Clerk and start chatting with AI!
+
+## Conclusion
+
+Conversational provides an engaging, privacy-focused, and scalable AI chatbot experience. Built with **Next.js, LangChain.js, and Gemini LLM**, it offers an intelligent and modular approach to AI-driven conversations.
