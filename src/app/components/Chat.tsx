@@ -41,7 +41,6 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
     try {
       const response = await initializeChatController(botId);
       if (!response) return alert("something went wrong");
-      console.log(response);
       setConversationId(response.data.conversationId);
       setBot(response.data.bot);
       setMessages([{ role: "assistant", content: response.data.aiMsg }]);
