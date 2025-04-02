@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ConversationChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
-import {
-  ChatPromptTemplate,
-  HumanMessagePromptTemplate,
-  SystemMessagePromptTemplate,
-} from "@langchain/core/prompts";
-
 import { botarr } from "@/app/util/bots";
 import { llm } from "@/app/services/services.bot";
+import { SystemPrompt } from "@/app/util/prompt";
 
 const conversationMemories = new Map();
 
@@ -30,10 +25,7 @@ export async function POST(
   let memory;
   let currentConversationId = conversationId;
 
-  if (
-    !currentConversationId ||
-    !conversationMemories.has(currentConversationId)
-  ) {
+  if (!currentConversationId || !conversationMemories.has(currentConversationId)) {
     memory = new BufferMemory();
     const newConversationId = Date.now().toString();
     conversationMemories.set(newConversationId, memory);
@@ -51,14 +43,7 @@ export async function POST(
   }
 
   try {
-    const promptTemplate = ChatPromptTemplate.fromMessages([
-      SystemMessagePromptTemplate.fromTemplate(
-        `You are ${botData.name}. ${botData.description}
-         You are having a conversation with a human.
-         Be helpful, friendly, and conversational in your responses.`
-      ),
-      HumanMessagePromptTemplate.fromTemplate("{input}"),
-    ]);
+    const promptTemplate = SystemPrompt(botData)
 
     const chain = new ConversationChain({
       llm,

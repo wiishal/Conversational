@@ -12,7 +12,7 @@ export default function Home() {
           <h1 className="text-5xl font-semibold text-center leading-tight text-neutral-200">
             Elevate Your Communication with AI-Powered Conversations
           </h1>
-          <h2 className="text-lg text-center text-gray-300">
+          <h2 className="text-lg text-center text-gray-300"> 
             Practice real-world conversations, sharpen your{" "}
             <span className="text-fuchsia-500 font-medium">articulation</span>,{" "}
             <span className="text-blue-500">fluency</span>, and{" "}

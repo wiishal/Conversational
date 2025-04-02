@@ -19,7 +19,7 @@ export default function AnalysisChat({
       try {
         const response = await getAnalysisController(messages);
         if (!response) return alert("Failed during getting analysis");
-        setAnalysis(response.data.aiMsg.replace(/\*\s?/g, ""));
+        setAnalysis(response.data.aiMsg);
       } catch (error) {
         console.error("Analysis fetch error:", error);
         setAnalysis("Something went wrong");
@@ -27,7 +27,7 @@ export default function AnalysisChat({
         setIsLoading(false);
       }
     }
-    // get();
+    get();
   }, [messages]);
 
   return (

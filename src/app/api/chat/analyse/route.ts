@@ -4,16 +4,14 @@ import { AnalysisSYSTEMPrompt } from "@/app/util/prompt";
 
 export async function POST(req: NextRequest) {
   try {
-    const { input } = await req.json();
+    const { chat } = await req.json();
 
     // Construct the final input prompt
-    const formattedPrompt = `${AnalysisSYSTEMPrompt}\n\nHuman: ${input}`;
+    const formattedPrompt = `${AnalysisSYSTEMPrompt}\n\ chat: ${chat}`;
 
     // Directly call the LLM
     const response = await llm.invoke(formattedPrompt);
-
-    console.log(response);
-    return NextResponse.json({ aiMsg: response });
+    return NextResponse.json({ aiMsg: response.content });
   } catch (error) {
     console.error("Error generating response:", error);
     return NextResponse.json(

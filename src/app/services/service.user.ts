@@ -44,7 +44,7 @@ export async function getBots() {
 
 export async function getAnalysis(chat:string) {
   try {
-    const responce = await axios.post("/api/chat/analyse",chat);
+    const responce = await axios.post("/api/chat/analyse",{chat});
     if (!responce) return false;
     return responce;
   } catch (error) {
