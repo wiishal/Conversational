@@ -21,7 +21,7 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
   const [input, setInput] = useState<string>("");
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [analysisData, setAnalysisData] = useState<boolean|null>(null);
+  const [analysisData, setAnalysisData] = useState<boolean | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [bot, setBot] = useState<{ name: string; type: ebotType }>({
     name: "",
@@ -139,13 +139,11 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
       </div>
 
       {/* Analysis Section - Right Side */}
-      {analysisData && ebotType[bot?.type] == "communication" ? (
+      {analysisData ? (
         <div className="w-1/3 h-full border ">
           <AnalysisChat messages={messages} setAnalysisData={setAnalysisData} />
         </div>
       ) : null}
-
-      
     </div>
   );
 }
