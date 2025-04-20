@@ -90,7 +90,6 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
       <div className="flex flex-col lg:w-2/3 w-full h-full border rounded-lg shadow-md text-sm">
         <div className="p-2 border flex flex-row justify-between items-center">
           <p className="font-medium p-2">{bot?.name}</p>
-          {ebotType[bot?.type] == "communication" && (
             <Button
               variant="outline"
               className="cursor-pointer"
@@ -98,7 +97,6 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
             >
               Get Analysis
             </Button>
-          )}
         </div>
         <div className="overflow-y-auto p-4 lg:space-y-4 flex-grow">
           {messages.map((msg, index) => (
