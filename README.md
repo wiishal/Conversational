@@ -7,6 +7,7 @@ Conversational is a **multi-chatbot AI platform** that enables users to interact
 ## Key Features
 
 - **Multiple Chatbots**: Users can select from different AI chatbots, each tailored for specific interactions.
+- **Conversation Analysis**: Get detailed analysis of your conversation.which includes summery, strength, flow etc.
 - **LangChain.js for AI Processing**: Utilizes LangChain.js to structure and manage AI-powered conversations efficiently.
 - **Gemini LLM Integration**: Provides high-quality, contextually aware responses.
 - **Clerk for Authentication**: Ensures secure user login and session management.
@@ -24,7 +25,7 @@ Conversational is a **multi-chatbot AI platform** that enables users to interact
 
 ### What is a Chatbot?
 
-A **chatbot** is an AI-driven software application that can simulate human conversation. It processes user inputs and generates meaningful responses based on its training data and algorithms. In this project, multiple chatbots allow users to engage in different types of conversations.
+A **Chatbot** is an AI-driven software application that can simulate human conversation. It processes user inputs and generates meaningful responses based on its training data and algorithms. In this project, multiple chatbots allow users to engage in different types of conversations.
 
 ### Role of LangChain.js
 
