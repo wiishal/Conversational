@@ -8,7 +8,7 @@ export default function Page() {
         <Appbar />
 
         {/* Features Section */}
-        <div className="w-full max-w-4xl mt-6 p-6 flex flex-col justify-center items-center  shadow-lg rounded-lg border border-red">
+        <div className="w-full max-w-4xl mt-6 p-6 flex flex-col justify-center items-center text-white shadow-lg rounded-lg border border-red">
           <h1 className="text-3xl font-bold text-center mb-4">
             Conversational AI Chatbot
           </h1>
