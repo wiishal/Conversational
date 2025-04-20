@@ -1,5 +1,6 @@
 import { JSX } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "./toggle";
 
 export default function Sidebar(): JSX.Element {
   return (
@@ -9,10 +10,12 @@ export default function Sidebar(): JSX.Element {
         <h1 className="text-xl font-medium text-blue-700 pl-3 ">
           Conversational
         </h1>
-
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+        <div className="flex flex-row items-center gap-2">
+          <ModeToggle />
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
       </div>
       <div className=" border-amber-400 p-4">
         <ul className="flex flex-col">

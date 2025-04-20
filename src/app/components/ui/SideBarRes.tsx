@@ -1,13 +1,16 @@
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "./toggle";
 
 export default function SideBarRes() {
   return (
     <div className=" border-amber-400 p-4 w-full flex flex-row-reverse items-center justify-between">
-      <div className="flex flex-row gap-5 text-xl font-medium pl-3 ">
-        <p className="font-medium text-blue-500">Conversational</p>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+      <div className="flex flex-row text-xl font-medium pl-3 justify-between ">
+        <div className="flex flex-row items-center gap-2">
+          <ModeToggle />
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
       </div>
       <ul className=" flex flex-row gap-3">
         <li className="">
