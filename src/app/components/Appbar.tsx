@@ -7,7 +7,7 @@ export default function Appbar(): JSX.Element {
       <h1 className="text-center">
         <Link href="/">Conversational</Link>
       </h1>
-      <ul className=" ">
+      <ul className="">
         <li>
           <Link href="/docs">docs</Link>
         </li>
