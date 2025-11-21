@@ -1,25 +1,26 @@
-name : lint
+name: lint
 
 on:
   pull_request:
-      branches: 
-        - main
-
+    branches:
+      - main
 
 jobs:
   eslint:
-    name: run eslint
+    name: Run ESLint
     runs-on: ubuntu-latest
 
-    steps: 
-      - name : checkout branches
-        run: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up
-        run: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-      - name : installation 
-        run: npm installation
+      - name: Install dependencies
+        run: npm install
 
-      - name: run eslint
+      - name: Run ESLint
         run: npm run lint
