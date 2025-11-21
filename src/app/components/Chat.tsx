@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, FormEvent } from "react";
+import { useState, useEffect, useRef, FormEvent, useCallback } from "react";
 import {
   initializeChatController,
   sendMsgController,
@@ -32,12 +32,8 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    initializeChat();
-  }, []);
-
-  async function initializeChat(): Promise<void> {
-    setIsLoading(true);
+  const initializeChat = useCallback(async()=>{
+     setIsLoading(true);
     try {
       const response = await initializeChatController(botId);
       if (!response) return alert("something went wrong");
@@ -49,7 +45,14 @@ export default function ChatInterface({ botId }: ChatInterfaceProps) {
     } finally {
       setIsLoading(false);
     }
-  }
+
+  },[botId])
+
+  useEffect(() => {
+    initializeChat();
+  }, [initializeChat]);
+
+  
 
   async function sendMessage(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
