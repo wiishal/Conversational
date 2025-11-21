@@ -6,7 +6,6 @@ import Warning from "./Warning";
 import { Button } from "./ui/button";
 
 export default function DiscoverComp() {
-  const { user } = useUser();
   const [warn, setWarn] = useState(true);
 
   return (
