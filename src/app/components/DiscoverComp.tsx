@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
 import RenderBots from "./discover/RenderBots";
 import { useState } from "react";
 import Warning from "./Warning";
