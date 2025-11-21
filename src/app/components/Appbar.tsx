@@ -1,14 +1,15 @@
+import Link from "next/link";
 import { JSX } from "react";
 
 export default function Appbar(): JSX.Element {
   return (
     <div className=" flex flex-row lg:w-full w-3/4 p-5 align-middle justify-between  gap-5 font-medium text-neutral-300 capitalize">
       <h1 className="text-center">
-        <a href="/">Conversational</a>
+        <Link href="/">Conversational</Link>
       </h1>
       <ul className=" ">
         <li>
-          <a href="/docs">docs</a>
+          <Link href="/docs">docs</Link>
         </li>
       </ul>
     </div>

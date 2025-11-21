@@ -13,7 +13,7 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ bot: string }> }
 ) {
-  let botId = (await params).bot;
+  const botId = (await params).bot;
  
   const { message, conversationId } = await req.json();
 
