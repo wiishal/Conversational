@@ -1,21 +1,34 @@
-import { ebotType, etag } from "./enum";
 
-export interface bots {
-  id: string;
-  name: string;
-  description: string;
-  tag: etag;
-  type: ebotType;
-  avatarColor?: string;
-}
-export interface BotsData {
-  communication: bots[];
-  interview: bots[];
-  personality: bots[];
-  mythology: bots[];
+export interface UserWriting {
+  subject:string;
+  writing: string;
 }
 
-export interface Message {
-  role: "user" | "assistant";
-  content: string;
+
+export interface emailAnalysis {
+  emailId:number,
+  userWriting:string
+}
+
+
+export interface EmailTask {
+  id: number;
+  subject: string;
+  audience: string;
+  tone: string;
+  purpose: string;
+  hint?: string;
+  example?: string;
+}
+export interface EmailTaskWithWriting extends EmailTask {
+  writing: string;
+}
+
+
+export interface EmailAnalysisPayload {
+  subject: string;
+  audience: string;
+  tone: string;
+  purpose: string;
+  writing: string;
 }

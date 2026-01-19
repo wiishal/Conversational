@@ -9,6 +9,8 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+projectDOC.md
+.vscode/
 
 # testing
 /coverage
@@ -42,3 +44,7 @@ next-env.d.ts
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+/src/generated/prisma
+/prisma/seed.ts
+/prisma/migrations/

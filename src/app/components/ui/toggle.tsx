@@ -13,6 +13,8 @@ import {
 export function ModeToggle() {
   const { setTheme, theme } = useTheme();
 
+  React.useEffect(() => {
+  }, []);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

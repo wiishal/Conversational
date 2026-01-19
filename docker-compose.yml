@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: conversational-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: vishal
+      POSTGRES_PASSWORD: vishal123
+      POSTGRES_DB: conversational
+    volumes:
+      - postgres_data1:/var/lib/postgresql/data
+
+volumes:
+  postgres_data1:

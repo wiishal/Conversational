@@ -1,0 +1,125 @@
+import { useState } from "react";
+import Loading from "./ui/Loading";
+import { getAnalysisController } from "../controllers/controller.write";
+import { UserWriting } from "../types/type";
+
+type WritingPurpose = "explain" | "persuade" | "reflect" | "request";
+
+export default function RenderTextArea() {
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [subject, setSubject] = useState("");
+  const [text, setText] = useState("");
+  const [purpose, setPurpose] = useState<WritingPurpose>("explain");
+
+  async function getAnalysisFunc() {
+    if (!subject.trim() || !text.trim()) return;
+
+    const writings: UserWriting & { purpose: WritingPurpose } = {
+      subject,
+      writing: text,
+      purpose,
+    };
+
+    console.log("Writings:", writings);
+
+    try {
+      // setIsAnalyzing(true);
+      const res = await getAnalysisController(writings);
+      console.log(res);
+      // TODO: show analysis UI
+    } catch (error) {
+      setError("Failed to analyze writing");
+      console.error(error);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  }
+
+  if (isAnalyzing) {
+    return (
+      <div className="flex justify-center items-center min-h-[40vh]">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full max-w-2xl mx-auto p-8 bg-red-50 border-2 border-red-300 rounded-xl shadow-lg">
+        <h3 className="text-xl font-semibold text-red-800 mb-2">Error</h3>
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
+
+  const wordCount = text.trim().split(/\s+/).filter(Boolean).length || 0;
+
+  return (
+    <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 py- sm:py-12 px-4">
+      <div className="flex flex-row justify-between border-b pb-4">
+        <h1 className="text-4xl font-extrabold">Write</h1>
+        <button
+          disabled={!subject.trim() || !text.trim()}
+          className="border rounded-sm px-6 py-2 font-medium text-sm disabled:opacity-50"
+          onClick={getAnalysisFunc}
+        >
+          Get Analysis
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="font-medium">Subject of writing</label>
+        <textarea
+          className="border px-3 py-2 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent"
+          placeholder="What do you want to write about?"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+          rows={2}
+        />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label className="font-medium">Purpose</label>
+        <select
+          value={purpose}
+          onChange={(e) => setPurpose(e.target.value as WritingPurpose)}
+          className="border px-3 py-2 rounded bg-accent"
+        >
+          <option value="explain">Explain</option>
+          <option value="persuade">Persuade</option>
+          <option value="reflect">Reflect</option>
+          <option value="request">Request</option>
+        </select>
+
+        <p className="text-sm text-muted-foreground">
+          Purpose helps AI evaluate clarity and tone correctly.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <div className="flex justify-between">
+          <label className="font-medium">Write here</label>
+          <span className="text-sm text-muted-foreground">
+            {wordCount} words
+          </span>
+        </div>
+
+        <p className="text-sm text-muted-foreground italic">
+          Tip: Write as if you are explaining this to a real person.
+        </p>
+
+        <textarea
+          className="border px-3 py-3 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows={10}
+          placeholder={`Opening thought
+Main idea
+Supporting points
+Conclusion`}
+        />
+      </div>
+    </div>
+  );
+}

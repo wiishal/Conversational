@@ -1,48 +1,23 @@
 import { JSX } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
-import { ModeToggle } from "./toggle";
+import { ModeToggle } from "./ui/toggle";
+import Link from "next/link";
 
 export default function Sidebar(): JSX.Element {
   return (
-    <div className="min-w-1/5 h-screen border bg-secondary lg:flex flex-col hidden">
+    <div className="min-w-1/12 h-screen bg-sidebar hidden lg:flex flex-col">
       {/* user detail section */}
       <div className="flex flex-row items-center justify-between p-4 border text-center">
-        <h1 className="text-xl font-medium text-blue-700 pl-3 ">
+        <h1 className="text-small font-medium text-blue-700 pl-3 ">
           Conversational
         </h1>
-        <div className="flex flex-row items-center gap-2">
-          <ModeToggle />
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
       </div>
-      <div className=" border-amber-400 p-4">
+      <div className=" border-amber-400 p-4 text-sm flex flex-col align-middle justify-between h-full">
         <ul className="flex flex-col">
           <li className=" p-3">
-            <a href="/discover" className="flex flex-row items-center gap-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-                />
-              </svg>
-
-              <p>Discover</p>
-            </a>
-          </li>
-          <li className="p-3">
-            <a
+            <Link
+              href="/quickwriting"
               className="flex flex-row items-center gap-3"
-              href="/discover/learn"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,14 +30,38 @@ export default function Sidebar(): JSX.Element {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
                 />
               </svg>
-              <p>Learn</p>
-            </a>
+
+              <p>Quick Writing</p>
+            </Link>
+          </li>
+          <li className="p-3">
+            <Link
+              className="flex flex-row items-center gap-3"
+              href="/email?level=1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+
+              <p>Email</p>
+            </Link>
           </li>
           <li className=" p-3">
-            <a
+            <Link
               href="/discover/process"
               className="flex flex-row items-center gap-3"
             >
@@ -82,9 +81,15 @@ export default function Sidebar(): JSX.Element {
               </svg>
 
               <p>Your Process</p>
-            </a>
+            </Link>
           </li>
         </ul>
+        <div className="mt-auto pt-4 border-t flex items-center gap-4 justify-center">
+          <ModeToggle />
+          {/* <SignedIn>
+            <UserButton />
+          </SignedIn> */}
+        </div>
       </div>
     </div>
   );

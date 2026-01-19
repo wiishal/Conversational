@@ -1,9 +1,9 @@
 "use client";
 
-import SideBarRes from "../components/ui/SideBarRes";
-import Sidebar from "../components/ui/Sidebar";
+import Sidebar from "../components/Sidebar";
+import SideBarRes from "../components/SideBarRes";
 
-export default function DashboardLayout({
+export default function EmailPageLayout({
   children,
 }: {
   children: React.ReactNode;
