@@ -26,7 +26,7 @@ export default function Sidebar(): JSX.Element {
       {/* user detail section */}
       <div className="flex flex-row items-center justify-between p-4 border text-center">
         <h1 className="text-small font-medium text-blue-700 pl-3 ">
-          Conversational
+          Writewise
         </h1>
       </div>
       <div className=" border-amber-400 p-4 text-sm flex flex-col align-middle justify-between h-full">
