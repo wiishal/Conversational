@@ -19,3 +19,13 @@ export async function getEmailTasks(level: number) {
     throw error;
   }
 }
+
+export async function updateEmailLevel() {
+  try {
+    const responce = await axios.post(`/api/email/tasks/updateLevel`);
+    return responce.data;
+  } catch (error) {
+    throw error;
+  }
+}
+

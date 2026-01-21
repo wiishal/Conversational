@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Loading from "./ui/Loading";
 import {
   EmailAnalysisPayload,
   EmailTask,
   EmailTaskWithWriting,
 } from "../types/type";
+
 import {
   getEmailAnalysisController,
   getEmailTasksController,
 } from "../controllers/controller.email";
+import { updateEmailLevel } from "../services/service.email";
 
 export default function RenderEmailTextArea({ level }: { level: number }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [emailTask, setEmailTasks] = useState<EmailTaskWithWriting[]>([]);
@@ -85,9 +90,21 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
     [emailIndex],
   );
 
+  const fetchNextLevelEmailTasks = async() =>{
+    const res = await updateEmailLevel()
+    if(!res.success){
+      console.error("Failed to update email level");
+      return;
+    }
+
+    console.log(res, "Next level email tasks");
+    router.push(`/email?level=${level + 1}`);
+  }
+
   useEffect(() => {
+    setEmailIndex(0);
     getEmailTasksFunc();
-  }, []);
+  }, [level]);
 
   if (isLoading) return <Loading />;
 
@@ -121,16 +138,16 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
     <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 py-8 sm:py-12 px-4">
       <h1 className="text-4xl font-extrabold border-b pb-4">
         Email{" "}
-          <span className="font-medium text-2xl">
-            {emailIndex + 1} / {emailTask.length}
-          </span>
+        <span className="font-medium text-2xl">
+          {emailIndex + 1} / {emailTask.length}
+        </span>
       </h1>
 
       <div className="flex flex-col gap-1">
         <label className="font-medium">Email subject</label>
-          <p className="border px-3 py-2 rounded bg-accent">
-            {emailIndex + 1}. {current.subject}
-          </p>
+        <p className="border px-3 py-2 rounded bg-accent">
+          {emailIndex + 1}. {current.subject}
+        </p>
 
         {(current.audience || current.tone) && (
           <p className="text-sm text-muted-foreground mt-1 italic">
@@ -172,13 +189,20 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
             Previous
           </button>
 
-          <button
-            disabled={emailIndex === emailTask.length - 1}
-            className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color"
-            onClick={() => handleBtnEvent("next")}
-          >
-            Next
-          </button>
+          {emailIndex === emailTask.length - 1 ? (
+            <button onClick={()=>fetchNextLevelEmailTasks()}
+            className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color">
+              Next level
+            </button>
+          ) : (
+            <button
+              disabled={emailIndex === emailTask.length - 1}
+              className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color"
+              onClick={() => handleBtnEvent("next")}
+            >
+              Next
+            </button>
+          )}
         </div>
         <div className="flex flex-row gap-2">
           ,

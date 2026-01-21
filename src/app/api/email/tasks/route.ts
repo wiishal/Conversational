@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
 
+//fetch email tasks based on level
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const level = Number(searchParams.get("level") ?? "1");
@@ -14,11 +14,16 @@ export async function GET(req: Request) {
         level: level,
       },
     });
-    return NextResponse.json({ success: true, tasks });
+    return NextResponse.json({ success: true, tasks }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      error: (error as Error).message,
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        error: (error as Error).message,
+      },
+      { status: 500 },
+    );
   }
 }
+
+

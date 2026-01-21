@@ -6,6 +6,19 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String   @id @default(uuid())
+  clerkId  String   @unique
+
+  email     String   @unique
+  name      String?
+
+  progress  UserProgress?
+  analyses  AnalysisLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 model EmailTask {
   id Int @id @default(autoincrement())
@@ -25,6 +38,7 @@ model EmailTask {
 
 model UserProgress {
   userId String @id
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   emailLevel Int @default(1)
   writeLevel Int @default(1)
@@ -40,6 +54,8 @@ model AnalysisLog {
   id Int @id @default(autoincrement())
 
   userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   type String
   level Int
 

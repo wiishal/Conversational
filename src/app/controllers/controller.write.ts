@@ -6,7 +6,6 @@ export async function getAnalysisController(userWriting: UserWriting) {
   console.log("Controller received writing:", userWritingJson);
   try {
     const data = await getAnalysis(userWritingJson);
-    console.log(data, "getAnalysisController")
     if (!data?.analysis) {
       return { success: false, message: "No analysis found" };
     }

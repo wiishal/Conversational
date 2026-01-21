@@ -1,9 +1,26 @@
-import { JSX } from "react";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { JSX, useEffect, useState } from "react";
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { ModeToggle } from "./ui/toggle";
 import Link from "next/link";
+import { fetchUserProgressController } from "../controllers/controller.user";
+import { UserProgress } from "@prisma/client";
 
 export default function Sidebar(): JSX.Element {
+  const { isSignedIn, user } = useUser();
+  const [userProgress, setUserProgress] = useState<UserProgress>();
+
+  const fetchUserProgress = async () => {
+      if (!isSignedIn || !user) return;
+
+      const res = await fetchUserProgressController()
+      if(!res.success && !res.userProgress){
+        console.error("Failed to fetch user progress:", res.message);
+      }
+      setUserProgress(res.userProgress);  
+  };
+  useEffect(() => {
+    fetchUserProgress();
+  }, [isSignedIn, user]);
   return (
     <div className="min-w-1/12 h-screen bg-sidebar hidden lg:flex flex-col">
       {/* user detail section */}
@@ -40,7 +57,7 @@ export default function Sidebar(): JSX.Element {
           <li className="p-3">
             <Link
               className="flex flex-row items-center gap-3"
-              href="/email?level=1"
+              href={`/email?level=${userProgress?.emailLevel || 1}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,9 +103,11 @@ export default function Sidebar(): JSX.Element {
         </ul>
         <div className="mt-auto pt-4 border-t flex items-center gap-4 justify-center">
           <ModeToggle />
-          {/* <SignedIn>
-            <UserButton />
-          </SignedIn> */}
+          {isSignedIn && (
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          )}
         </div>
       </div>
     </div>

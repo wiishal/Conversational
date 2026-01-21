@@ -1,15 +1,20 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { ModeToggle } from "./ui/toggle";
 
 export default function SideBarRes() {
+  const { isSignedIn } = useUser();
+
+  
   return (
     <div className=" p-4 w-full flex flex-row-reverse items-center justify-between">
       <div className="flex flex-row text-xl font-medium pl-3 justify-between ">
         <div className="flex flex-row items-center gap-2">
           <ModeToggle />
-          {/* <SignedIn>
-            <UserButton />
-          </SignedIn> */}
+          {isSignedIn && (
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          )}
         </div>
       </div>
       <ul className=" flex flex-row gap-3">
