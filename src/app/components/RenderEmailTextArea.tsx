@@ -13,10 +13,14 @@ import {
   getEmailTasksController,
 } from "../controllers/controller.email";
 import { updateEmailLevel } from "../services/service.email";
+import { useUser } from "@clerk/nextjs";
 
 export default function RenderEmailTextArea({ level }: { level: number }) {
   const router = useRouter();
+  const { isSignedIn } = useUser();
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [error, setError] = useState<string | null>(null);
   const [emailTask, setEmailTasks] = useState<EmailTaskWithWriting[]>([]);
   const [emailIndex, setEmailIndex] = useState<number>(0);
@@ -90,16 +94,21 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
     [emailIndex],
   );
 
-  const fetchNextLevelEmailTasks = async() =>{
-    const res = await updateEmailLevel()
-    if(!res.success){
+  const fetchNextLevelEmailTasks = async () => {
+    if (!isSignedIn) {
+      router.push(`/email?level=2`);
+      return;
+    }
+
+    const res = await updateEmailLevel();
+    if (!res.success) {
       console.error("Failed to update email level");
       return;
     }
 
     console.log(res, "Next level email tasks");
     router.push(`/email?level=${level + 1}`);
-  }
+  };
 
   useEffect(() => {
     setEmailIndex(0);
@@ -190,8 +199,10 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
           </button>
 
           {emailIndex === emailTask.length - 1 ? (
-            <button onClick={()=>fetchNextLevelEmailTasks()}
-            className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color">
+            <button
+              onClick={() => fetchNextLevelEmailTasks()}
+              className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color"
+            >
               Next level
             </button>
           ) : (

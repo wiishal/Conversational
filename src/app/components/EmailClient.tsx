@@ -12,23 +12,16 @@ export default function EmailClient() {
   const level = Number(searchParams.get("level") || "1");
 
   const { isLoaded, isSignedIn, user } = useUser();
-
-  const logUserIdfunc = async () => {
-    const res = await logUserIdController();
-    if (!res.success) {
-      console.log("User sync failed:", res.message);
-      return;
-    }
-    console.log("User synced");
-  };
   useEffect(() => {
     if (!isSignedIn) return;
-    logUserIdfunc();
+    logUserIdController();
   }, [isSignedIn, user]);
 
-  if (!isLoaded) return <Loading />;
+  if (!isLoaded) {
+    return <Loading />;
+  }
 
-  if (!isSignedIn && level > 1) {
+  if (!isSignedIn && level >= 2) {
     return (
       <div className="flex h-full w-full justify-center items-center">
         <SignIn routing="hash" />

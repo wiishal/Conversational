@@ -1,5 +1,5 @@
 import { JSX, useEffect, useState } from "react";
-import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import { SignedIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { ModeToggle } from "./ui/toggle";
 import Link from "next/link";
 import { fetchUserProgressController } from "../controllers/controller.user";
@@ -103,11 +103,11 @@ export default function Sidebar(): JSX.Element {
         </ul>
         <div className="mt-auto pt-4 border-t flex items-center gap-4 justify-center">
           <ModeToggle />
-          {isSignedIn && (
+          {isSignedIn ? (
             <SignedIn>
               <UserButton />
             </SignedIn>
-          )}
+          ):<SignInButton>Sign In</SignInButton>}
         </div>
       </div>
     </div>

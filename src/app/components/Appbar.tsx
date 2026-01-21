@@ -5,7 +5,7 @@ export default function Appbar(): JSX.Element {
   return (
     <div className=" flex flex-row lg:w-full w-3/4 p-5 align-middle justify-between  gap-5 font-medium text-neutral-300 capitalize">
       <h1 className="text-center">
-        <Link href="/">Conversational</Link>
+        <Link href="/">Writewise</Link>
       </h1>
       <ul className="">
         <li>
