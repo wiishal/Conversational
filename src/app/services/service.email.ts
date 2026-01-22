@@ -1,10 +1,9 @@
 import axios from "axios";
-import { EmailAnalysisPayload } from "../types/type";
 
 export async function getEmailAnalysis(UserEmailWriting: string) {
   try {
     const responce = await axios.post("/api/email/analyze", UserEmailWriting);
-    console.log("Service received response:", responce.data);
+    console.log("Service received response:", responce);
     return responce.data;
   } catch (error) {
     throw error;

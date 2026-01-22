@@ -6,20 +6,20 @@ export async function POST(req: Request) {
     const { subject, writing, audience, tone, purpose } = body;
 
     console.log("Received for email analysis:", body);
-
+    console.log(body.subject , "subject from api")
     if (!subject || !writing) {
       return NextResponse.json(
         { success: false, message: "Missing fields" },
-        { status: 400 },
+        { status: 200 },
       );
     }
 
     const wordCount = writing.trim().split(/\s+/).length;
 
-    if (wordCount < 40) {
+    if (wordCount < 0) {
       return NextResponse.json(
         { success: false, message: "Minimum 40 words required" },
-        { status: 400 },
+        { status: 200 },
       );
     }
 

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 
 import Loading from "./ui/Loading";
 import {
+  EmailAnalysis,
   EmailAnalysisPayload,
   EmailTask,
   EmailTaskWithWriting,
@@ -14,17 +15,18 @@ import {
 } from "../controllers/controller.email";
 import { updateEmailLevel } from "../services/service.email";
 import { useUser } from "@clerk/nextjs";
+import EmailAnalysisCard from "./EmailAnalysisCard";
 
 export default function RenderEmailTextArea({ level }: { level: number }) {
   const router = useRouter();
   const { isSignedIn } = useUser();
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const [error, setError] = useState<string | null>(null);
   const [emailTask, setEmailTasks] = useState<EmailTaskWithWriting[]>([]);
   const [emailIndex, setEmailIndex] = useState<number>(0);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysis, setAnalysis] = useState<EmailAnalysis | null>(null);
+
   const [showEmailExample, setShowEmailExample] = useState(false);
 
   async function getAnalysisFunc() {
@@ -42,12 +44,15 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
         writing: current.writing,
       };
 
-      const analysis = await getEmailAnalysisController(emailData);
+      const res = await getEmailAnalysisController(emailData);
 
       console.log("Analyze:", analysis);
+      if (!res.success) {
+        console.error("Analysis failed");
+        return;
+      }
 
-      // optionally store in state
-      // setAnalysis(analysis);
+      setAnalysis(res.analysis);
     } catch (error) {
       console.error("Email analysis failed:", error);
     } finally {
@@ -56,7 +61,6 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
   }
 
   async function getEmailTasksFunc() {
-    console.log(level, "level");
     const res = await getEmailTasksController(level);
     console.log(res);
     if (!res.success || !res.tasks) {
@@ -75,6 +79,7 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
   }
 
   function handleBtnEvent(direction: "prev" | "next") {
+    setAnalysis(null);
     if (direction === "prev" && emailIndex > 0) {
       setEmailIndex((prev) => prev - 1);
     }
@@ -216,7 +221,6 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
           )}
         </div>
         <div className="flex lg:flex-row lg:justify-between justify-between gap-3">
-          
           <button
             onClick={() => setShowEmailExample((prev) => !prev)}
             className="border px-4 py-2 text-sm  rounded bg-accent disabled:opacity-50 cursor-pointer"
@@ -225,10 +229,10 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
           </button>
           <button
             disabled={!current.writing.trim() || isAnalyzing}
-            className="border px-4 py-2 text-sm rounded bg-accent disabled:opacity-50 cursor-pointer"
+            className="border rounded-sm px-6 py-2 font-medium text-sm disabled:opacity-50 cursor-pointer hover:bg-accent hover:text-primary transition bg-primary text-primary-foreground"
             onClick={getAnalysisFunc}
           >
-            {isAnalyzing ? "Analyzing..." : "Get Analysis"}
+            {isAnalyzing ? "Analyzing..." : analysis ? "Re-analyze" : "Analyze"}
           </button>
         </div>
       </div>
@@ -242,6 +246,8 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
           {emailTask[emailIndex]?.example}
         </div>
       )}
+
+      {analysis && <EmailAnalysisCard analysis={analysis} />}
     </div>
   );
 }

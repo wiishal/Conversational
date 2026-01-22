@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Loading from "./ui/Loading";
 import { getAnalysisController } from "../controllers/controller.write";
-import { UserWriting } from "../types/type";
+import { UserWriting, WritingAnalysis } from "../types/type";
+import { AnalysisCard } from "./AnalysisCard";
 
 type WritingPurpose = "explain" | "persuade" | "reflect" | "request";
 
@@ -11,6 +12,7 @@ export default function RenderTextArea() {
   const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   const [purpose, setPurpose] = useState<WritingPurpose>("explain");
+  const [analysis, setAnalysis] = useState<WritingAnalysis | null>(null);
 
   async function getAnalysisFunc() {
     if (!subject.trim() || !text.trim()) return;
@@ -21,27 +23,22 @@ export default function RenderTextArea() {
       purpose,
     };
 
-    console.log("Writings:", writings);
-
     try {
-      // setIsAnalyzing(true);
+      setAnalysis(null);
+      setIsAnalyzing(true);
       const res = await getAnalysisController(writings);
-      console.log(res);
-      // TODO: show analysis UI
+      if (!res.success) {
+        setError(res.message || "Analysis failed");
+        return;
+      }
+      console.log("Analysis received:", res.analysis);
+      setAnalysis(res.analysis || null);
     } catch (error) {
       setError("Failed to analyze writing");
       console.error(error);
     } finally {
       setIsAnalyzing(false);
     }
-  }
-
-  if (isAnalyzing) {
-    return (
-      <div className="flex justify-center items-center min-h-[40vh]">
-        <Loading />
-      </div>
-    );
   }
 
   if (error) {
@@ -61,10 +58,10 @@ export default function RenderTextArea() {
         <h1 className="text-4xl font-extrabold">Write</h1>
         <button
           disabled={!subject.trim() || !text.trim()}
-          className="border rounded-sm px-6 py-2 font-medium text-sm disabled:opacity-50"
+          className="border rounded-sm px-6 py-2 font-medium text-sm disabled:opacity-50 cursor-pointer hover:bg-accent hover:text-primary transition bg-primary text-primary-foreground"
           onClick={getAnalysisFunc}
         >
-          Get Analysis
+          {isAnalyzing ? "Analyzing..." : "Analyze"}
         </button>
       </div>
 
@@ -114,12 +111,14 @@ export default function RenderTextArea() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={10}
-          placeholder={`Opening thought
-Main idea
-Supporting points
-Conclusion`}
+          placeholder={`Opening thought\n \nMain idea\n Supporting points\n Conclusion`}
         />
       </div>
+      {analysis && (
+        <div className="border px-3 py-3 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent text-sm whitespace-pre-wrap transition">
+          <AnalysisCard analysis={analysis} />
+        </div>
+      )}
     </div>
   );
 }

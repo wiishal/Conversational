@@ -32,3 +32,17 @@ export interface EmailAnalysisPayload {
   purpose: string;
   writing: string;
 }
+
+
+export type WritingAnalysis = {
+  clarityScore: number;
+  structureScore: number;
+  feedback: string;
+};
+
+export type EmailAnalysis = {
+  clarityScore: number;
+  structureScore: number;
+  toneMatch: string;
+  feedback: string;
+};
