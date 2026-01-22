@@ -10,13 +10,13 @@ export default function Sidebar(): JSX.Element {
   const [userProgress, setUserProgress] = useState<UserProgress>();
 
   const fetchUserProgress = async () => {
-      if (!isSignedIn || !user) return;
+    if (!isSignedIn || !user) return;
 
-      const res = await fetchUserProgressController()
-      if(!res.success && !res.userProgress){
-        console.error("Failed to fetch user progress:", res.message);
-      }
-      setUserProgress(res.userProgress);  
+    const res = await fetchUserProgressController();
+    if (!res.success && !res.userProgress) {
+      console.error("Failed to fetch user progress:", res.message);
+    }
+    setUserProgress(res.userProgress);
   };
   useEffect(() => {
     fetchUserProgress();
@@ -24,10 +24,8 @@ export default function Sidebar(): JSX.Element {
   return (
     <div className="min-w-1/12 h-screen bg-sidebar hidden lg:flex flex-col">
       {/* user detail section */}
-      <div className="flex flex-row items-center justify-between p-4 border text-center">
-        <h1 className="text-small font-medium text-blue-700 pl-3 ">
-          Writewise
-        </h1>
+      <div className="flex flex-row items-center justify-center p-4 border text-center">
+        <h1 className="text-small font-medium text-blue-700 ">Writewise</h1>
       </div>
       <div className=" border-amber-400 p-4 text-sm flex flex-col align-middle justify-between h-full">
         <ul className="flex flex-col">
@@ -107,7 +105,13 @@ export default function Sidebar(): JSX.Element {
             <SignedIn>
               <UserButton />
             </SignedIn>
-          ):<SignInButton>Sign In</SignInButton>}
+          ) : (
+            <SignInButton>
+              <button className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color">
+                Sign In
+              </button>
+            </SignInButton>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import { SignedIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { ModeToggle } from "./ui/toggle";
 import { fetchUserProgressController } from "../controllers/controller.user";
 import { useEffect, useState } from "react";
@@ -28,10 +28,16 @@ const { isSignedIn, user } = useUser();
       <div className="flex flex-row text-xl font-medium pl-3 justify-between ">
         <div className="flex flex-row items-center gap-2">
           <ModeToggle />
-          {isSignedIn && (
+          {isSignedIn ? (
             <SignedIn>
               <UserButton />
             </SignedIn>
+          ) : (
+            <SignInButton>
+              <button className="border px-4 py-2 text-sm rounded ml-4 disabled:opacity-50 cursor-pointer focus:bg-blend-color">
+                Sign In
+              </button>
+            </SignInButton>
           )}
         </div>
       </div>

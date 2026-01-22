@@ -188,8 +188,8 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
         />
       </div>
 
-      <div className="flex justify-between items-center">
-        <div>
+      <div className="flex lg:flex-row lg:justify-between flex-col gap-3">
+        <div className=" flex justify-between">
           <button
             disabled={emailIndex === 0}
             className="border px-4 py-2 text-sm rounded disabled:opacity-50 cursor-pointer"
@@ -215,11 +215,11 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
             </button>
           )}
         </div>
-        <div className="flex flex-row gap-2">
-          ,
+        <div className="flex lg:flex-row lg:justify-between justify-between gap-3">
+          
           <button
             onClick={() => setShowEmailExample((prev) => !prev)}
-            className="border px-4 py-2 text-sm rounded bg-accent disabled:opacity-50 cursor-pointer"
+            className="border px-4 py-2 text-sm  rounded bg-accent disabled:opacity-50 cursor-pointer"
           >
             {showEmailExample ? "Close" : "Show example"}
           </button>
