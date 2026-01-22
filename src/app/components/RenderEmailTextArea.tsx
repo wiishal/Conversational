@@ -62,7 +62,6 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
 
   async function getEmailTasksFunc() {
     const res = await getEmailTasksController(level);
-    console.log(res);
     if (!res.success || !res.tasks) {
       setError(res.message);
       setIsLoading(false);

@@ -5,8 +5,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { subject, writing, audience, tone, purpose } = body;
 
-    console.log("Received for email analysis:", body);
-    console.log(body.subject , "subject from api")
     if (!subject || !writing) {
       return NextResponse.json(
         { success: false, message: "Missing fields" },
