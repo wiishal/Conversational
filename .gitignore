@@ -48,4 +48,3 @@ next-env.d.ts
 /src/generated/prisma
 /prisma/seed.ts
 /prisma/migrations/
-/src/lib/prompts/
