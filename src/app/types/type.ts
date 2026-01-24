@@ -37,6 +37,7 @@ export interface EmailAnalysisPayload {
 export type WritingAnalysis = {
   clarityScore: number;
   structureScore: number;
+  grammerScore: number;
   feedback: string;
 };
 

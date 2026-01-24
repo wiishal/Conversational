@@ -6,12 +6,12 @@ export async function getAnalysisController(userWriting: UserWriting) {
   try {
     const data = await getAnalysis(userWritingJson);
     if (!data?.analysis) {
-      return { success: false, message: data?.message || "No analysis found" };
+      return { success: false, message: data?.error?.message || "No analysis found" };
     }
     return { success: true, analysis: data.analysis };
   } catch (error) {
     console.error("Error while getting analysis", error);
-    return { success: false, message: "Failed to fetch analysis" };
+    return { success: false, message:  "Failed to fetch analysis" };
   }
 }
 

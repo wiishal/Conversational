@@ -1,5 +1,5 @@
+import { prisma } from "@/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 //register user if not exists

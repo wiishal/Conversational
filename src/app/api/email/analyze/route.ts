@@ -1,3 +1,5 @@
+import { runLLM } from "@/lib/LLMRouter";
+import { buildEmailAnalysisPrompt } from "@/lib/prompts/buildEmailAnalysisPrompt";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -21,18 +23,35 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔮 AI analysis placeholder
-    const analysis = {
-      clarityScore: 7,
-      structureScore: 6,
-      toneMatch: tone ?? "Neutral",
-      feedback: "Good effort. Try adding a proper greeting and closing.",
-    };
+    // // 🔮 AI analysis placeholder
+    // const analysis = {
+    //   clarityScore: 7,
+    //   structureScore: 6,
+    //   toneMatch: tone ?? "Neutral",
+    //   feedback: "Good effort. Try adding a proper greeting and closing.",
+    // };
+    const prompt = buildEmailAnalysisPrompt(subject, writing);
+    const llmResult = await runLLM(prompt);
 
-    return NextResponse.json({
-      success: true,
-      analysis,
-    });
+    let analysis;
+    try {
+      analysis = JSON.parse(llmResult.text);
+    } catch {
+      analysis = {
+        clarityScore: 0,
+        structureScore: 0,
+        toneMatch: "Neutral",
+        feedback: "Unable to analyze writing. Please try again.",
+      };
+    }
+    return NextResponse.json(
+      {
+        success: true,
+        llmProvider: llmResult.provider,
+        analysis,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(

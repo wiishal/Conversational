@@ -40,8 +40,11 @@ WriteWise addresses a common problem: **people struggle with written communicati
 - **PostgreSQL** - Relational database for user data and progress tracking
 
 ### **AI & Analysis**
-- **Local LLM** (Ollama/LM Studio) - Privacy-focused AI analysis without API costs
-- Custom prompting for writing evaluation and feedback generation
+- **Local LLM (Ollama / LM Studio)** – Primary analysis engine for privacy-first, low-cost AI evaluation
+- **Gemini API (Google)** – Automatic fallback when local LLM is unavailable
+- **LLM Router** – Smart provider selection with graceful fallback and unified error handling
+- Custom prompt engineering for writing evaluation and feedback generation
+
 
 ### **Authentication**
 - **Clerk** - Secure user authentication and session management

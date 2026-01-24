@@ -34,21 +34,21 @@ export default function RenderTextArea() {
       console.log("Analysis received:", res.analysis);
       setAnalysis(res.analysis || null);
     } catch (error) {
-      setError("Failed to analyze writing");
+      // setError("Failed to analyze writing");
       console.error(error);
     } finally {
       setIsAnalyzing(false);
     }
   }
 
-  if (error) {
-    return (
-      <div className="w-full max-w-2xl mx-auto p-8 bg-red-50 border-2 border-red-300 rounded-xl shadow-lg">
-        <h3 className="text-xl font-semibold text-red-800 mb-2">Error</h3>
-        <p className="text-red-600">{error}</p>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="w-full max-w-2xl mx-auto p-8 bg-red-50 border-2 border-red-300 rounded-xl shadow-lg">
+  //       <h3 className="text-xl font-semibold text-red-800 mb-2">Error</h3>
+  //       <p className="text-red-600">{error}</p>
+  //     </div>
+  //   );
+  // }
 
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length || 0;
 

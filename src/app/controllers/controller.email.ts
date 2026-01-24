@@ -6,7 +6,7 @@ export async function getEmailTasksController(level:number): Promise<{ success: 
     const data = await getEmailTasks(level);
     console.log(data, "getEmailTasksController");
     if (!data?.tasks) {
-      return { success: false, message: "No email subjects found" };
+      return { success: false, message: data.error?.message || "No tasks found" };
     }
     return { success: true, tasks: data.tasks, message: "Email subjects fetched successfully" };
   } catch (error) {
@@ -22,7 +22,7 @@ export async function getEmailAnalysisController(userEmailWriting: EmailAnalysis
   try {
     const data = await getEmailAnalysis(userEmailWritingJson)
     if (!data?.analysis) {
-      return { success: false, message: "No analysis found" };
+      return { success: false, message: data?.error?.message || "No analysis found" };
     }
     return { success: true, analysis: data.analysis };
   } catch (error) {
@@ -38,7 +38,7 @@ export async function updateEmailLevelController() {
   try {
     const data = await updateEmailLevel()
     if (!data?.success) {
-      return { success: false, message: "Failed to update email level" };
+      return { success: false, message:data?.error?.message || "Failed to update email level" };
     }
     return { success: true, analysis: data.analysis };
   } catch (error) {
