@@ -9,7 +9,7 @@ type WritingPurpose = "explain" | "persuade" | "reflect" | "request";
 
 export default function RenderTextArea() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [error, setError] = useState<string | null>("persuade");
+  const [error, setError] = useState<string | null>(null);
   const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   const [purpose, setPurpose] = useState<WritingPurpose>("explain");

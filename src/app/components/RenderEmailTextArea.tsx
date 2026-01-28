@@ -27,7 +27,6 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
   const [emailIndex, setEmailIndex] = useState<number>(0);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<EmailAnalysis | null>(null);
-  const analysisDivRenderRef = useRef<HTMLDivElement | null>(null);
 
   const [showEmailExample, setShowEmailExample] = useState(false);
 
@@ -234,8 +233,10 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
         </div>
       )}
       {error && <ShowError error={error} closeErrorPopUp={setError} />}
-
-      {analysis && <EmailAnalysisCard analysis={analysis} />}
+      <div className="">
+        {isAnalyzing && "Analysing..."}
+        {analysis && <EmailAnalysisCard analysis={analysis} />}
+      </div>
     </div>
   );
 }
