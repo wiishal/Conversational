@@ -8,8 +8,8 @@ Task:
 Evaluate the user's writing based on the given subject.
 
 Evaluation rules:
-1. Clarity score (1–10): how clear and understandable the writing is.
-2. Structure score (1–10): how well ideas are organized and connected.
+1. Clarity score (1–100): how clear and understandable the writing is.
+2. Structure score (1–100): how well ideas are organized and connected.
 3. Feedback: 1–2 short sentences with specific improvement suggestions.
 4. Be neutral, professional, and encouraging.
 5. Do NOT rewrite the text.

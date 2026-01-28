@@ -1,4 +1,4 @@
-import { prisma } from "@/prisma";
+import { prisma } from '@/prisma'
 import { NextResponse } from "next/server";
 
 //fetch email tasks based on level

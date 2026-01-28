@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loading from "./ui/Loading";
 import { getAnalysisController } from "../controllers/controller.write";
 import { UserWriting, WritingAnalysis } from "../types/type";
 import { AnalysisCard } from "./AnalysisCard";
+import ShowError from "./ShowError";
 
 type WritingPurpose = "explain" | "persuade" | "reflect" | "request";
 
 export default function RenderTextArea() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>("persuade");
   const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   const [purpose, setPurpose] = useState<WritingPurpose>("explain");
   const [analysis, setAnalysis] = useState<WritingAnalysis | null>(null);
+  const analysisDivRenderRef = useRef<HTMLDivElement | null>(null) 
 
   async function getAnalysisFunc() {
     if (!subject.trim() || !text.trim()) return;
@@ -31,31 +33,31 @@ export default function RenderTextArea() {
         setError(res.message || "Analysis failed");
         return;
       }
-      console.log("Analysis received:", res.analysis);
       setAnalysis(res.analysis || null);
     } catch (error) {
-      // setError("Failed to analyze writing");
+      setError("Failed to analyze writing");
       console.error(error);
     } finally {
       setIsAnalyzing(false);
     }
   }
-
-  // if (error) {
-  //   return (
-  //     <div className="w-full max-w-2xl mx-auto p-8 bg-red-50 border-2 border-red-300 rounded-xl shadow-lg">
-  //       <h3 className="text-xl font-semibold text-red-800 mb-2">Error</h3>
-  //       <p className="text-red-600">{error}</p>
-  //     </div>
-  //   );
-  // }
+const scrollToAnalysisDiv = () => {
+    analysisDivRenderRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(()=>{
+    scrollToAnalysisDiv()
+  },[analysis])
 
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length || 0;
 
   return (
-    <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 py- sm:py-12 px-4">
+    <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 sm:py-12 px-4">
       <div className="flex flex-row justify-between border-b pb-4">
+        <div className="flex gap-4">
+
         <h1 className="text-4xl font-extrabold">Write</h1>
+        {error && <ShowError error={error} closeErrorPopUp={setError}/>}
+        </div>
         <button
           disabled={!subject.trim() || !text.trim()}
           className="border rounded-sm px-6 py-2 font-medium text-sm disabled:opacity-50 cursor-pointer hover:bg-accent hover:text-primary transition bg-primary text-primary-foreground"
@@ -111,14 +113,17 @@ export default function RenderTextArea() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={10}
-          placeholder={`Opening thought\n \nMain idea\n Supporting points\n Conclusion`}
+          placeholder={`Opening thought\n \nMain idea\n \nSupporting points\n \nConclusion`}
         />
       </div>
+      <div ref={analysisDivRenderRef}>
+      {isAnalyzing ? "processing....":""}
       {analysis && (
-        <div className="border px-3 py-3 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent text-sm whitespace-pre-wrap transition">
+        <div  className="border px-3 py-3 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent text-sm whitespace-pre-wrap transition">
           <AnalysisCard analysis={analysis} />
         </div>
       )}
+      </ div>
     </div>
   );
 }

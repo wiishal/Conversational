@@ -1,36 +1,20 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(uuid())
-  clerkId  String   @unique
-
-  email     String   @unique
+  id        String @id @default(uuid())
+  clerkId   String @unique
+  email     String @unique
   name      String?
 
-  progress  UserProgress?
-  analyses  AnalysisLog[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model EmailTask {
-  id Int @id @default(autoincrement())
-
-  level Int
-  subject String
-  audience String
-  tone String
-  purpose String
-
-  hint String?
-  example String?
+  progress        UserProgress?
+  writingAnalyses WritingAnalysis[]
+  emailAnalyses   EmailAnalysis[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -50,17 +34,56 @@ model UserProgress {
   updatedAt DateTime @updatedAt
 }
 
-model AnalysisLog {
+model WritingAnalysis {
   id Int @id @default(autoincrement())
 
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  type String
-  level Int
+  subject String
 
-  summary String
-  focusArea String?
+  /// 0–100
+  clarityScore   Int
+  structureScore Int
+  grammarScore   Int
+
+  feedback String?
 
   createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model EmailTask {
+  id Int @id @default(autoincrement())
+
+  level    Int
+  subject  String
+  audience String
+  tone     String
+  purpose  String
+
+  hint    String?
+  example String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EmailAnalysis {
+  id Int @id @default(autoincrement())
+
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  level Int
+
+  /// 0–100
+  clarityScore   Int
+  structureScore Int
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, level])
 }

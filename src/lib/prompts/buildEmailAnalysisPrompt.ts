@@ -9,8 +9,8 @@ Task:
 Evaluate the user's email based on the subject and email body.
 
 Evaluation rules:
-1. Clarity score (1–10): clarity and ease of understanding.
-2. Structure score (1–10): organization (greeting, body, closing).
+1. Clarity score (1–100): clarity and ease of understanding.
+2. Structure score (1–100): organization (greeting, body, closing).
 3. Tone match: classify the tone using ONE of these values only:
    - Professional
    - Neutral

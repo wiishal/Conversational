@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import ShowError from "./ShowError";
 
 import Loading from "./ui/Loading";
 import {
@@ -26,6 +27,7 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
   const [emailIndex, setEmailIndex] = useState<number>(0);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<EmailAnalysis | null>(null);
+  const analysisDivRenderRef = useRef<HTMLDivElement | null>(null);
 
   const [showEmailExample, setShowEmailExample] = useState(false);
 
@@ -33,28 +35,25 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
     const current = emailTask[emailIndex];
     if (!current?.writing.trim()) return;
 
+    const emailData: EmailAnalysisPayload = {
+      subject: current.subject,
+      audience: current.audience,
+      tone: current.tone,
+      purpose: current.purpose,
+      writing: current.writing,
+    };
+
     try {
       setIsAnalyzing(true);
 
-      const emailData: EmailAnalysisPayload = {
-        subject: current.subject,
-        audience: current.audience,
-        tone: current.tone,
-        purpose: current.purpose,
-        writing: current.writing,
-      };
-
       const res = await getEmailAnalysisController(emailData);
-
-      console.log("Analyze:", analysis);
       if (!res.success) {
-        console.error("Analysis failed");
+        setError("Analysis failed");
         return;
       }
-
       setAnalysis(res.analysis);
     } catch (error) {
-      console.error("Email analysis failed:", error);
+      setError("Email Analysis failed");
     } finally {
       setIsAnalyzing(false);
     }
@@ -67,7 +66,6 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
       setIsLoading(false);
       return;
     }
-    console.log(res.tasks);
     const withWriting = res.tasks.map((task: EmailTask) => ({
       ...task,
       writing: "",
@@ -106,11 +104,10 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
 
     const res = await updateEmailLevel();
     if (!res.success) {
-      console.error("Failed to update email level");
+      setError("Failed to update email level");
       return;
     }
 
-    console.log(res, "Next level email tasks");
     router.push(`/email?level=${level + 1}`);
   };
 
@@ -120,17 +117,6 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
   }, [level]);
 
   if (isLoading) return <Loading />;
-
-  if (error) {
-    return (
-      <div className="w-full max-w-2xl mx-auto p-8 bg-red-50 border-2 border-red-300 rounded-xl shadow-lg">
-        <h3 className="text-xl font-semibold text-red-800 mb-2">
-          Error Loading Content
-        </h3>
-        <p className="text-red-600">{error}</p>
-      </div>
-    );
-  }
 
   if (emailTask.length === 0) {
     return (
@@ -148,13 +134,15 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
     current?.writing?.trim().split(/\s+/).filter(Boolean).length || 0;
 
   return (
-    <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 py-8 sm:py-12 px-4">
-      <h1 className="text-4xl font-extrabold border-b pb-4">
-        Email{" "}
-        <span className="font-medium text-2xl">
-          {emailIndex + 1} / {emailTask.length}
-        </span>
-      </h1>
+    <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 sm:py-12 px-4">
+      <div className="flex items-center justify-between p-1">
+        <h1 className="text-4xl font-extrabold p-2">
+          Email{" "}
+          <span className="font-medium text-2xl">
+            {emailIndex + 1} / {emailTask.length}
+          </span>
+        </h1>
+      </div>
 
       <div className="flex flex-col gap-1">
         <label className="font-medium">Email subject</label>
@@ -245,6 +233,7 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
           {emailTask[emailIndex]?.example}
         </div>
       )}
+      {error && <ShowError error={error} closeErrorPopUp={setError} />}
 
       {analysis && <EmailAnalysisCard analysis={analysis} />}
     </div>

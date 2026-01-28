@@ -23,13 +23,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // // 🔮 AI analysis placeholder
-    // const analysis = {
-    //   clarityScore: 7,
-    //   structureScore: 6,
-    //   toneMatch: tone ?? "Neutral",
-    //   feedback: "Good effort. Try adding a proper greeting and closing.",
-    // };
+    
     const prompt = buildEmailAnalysisPrompt(subject, writing);
     const llmResult = await runLLM(prompt);
 
