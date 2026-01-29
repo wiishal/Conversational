@@ -1,9 +1,9 @@
 import { SignedIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { ModeToggle } from "./ui/toggle";
-import { fetchUserProgressController } from "../controllers/controller.user";
 import { useEffect, useState } from "react";
 import { UserProgress } from "@prisma/client";
 import Link from "next/link";
+import { fetchUserProgressController } from "@/controllers/controller.user";
 
 export default function SideBarRes() {
 const { isSignedIn, user } = useUser();

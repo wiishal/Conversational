@@ -1,3 +1,5 @@
+import { AppError } from "@/lib/error/error";
+import { handleApiError } from "@/lib/error/handleApiError";
 import { prisma } from "@/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -6,18 +8,12 @@ import { NextResponse } from "next/server";
 export async function POST() {
   const { userId } = await auth();
   if (!userId) {
-    return NextResponse.json(
-      { success: false, message: "User not found" },
-      { status: 401 },
-    );
+    throw new AppError("User not found", 401, "USER_NOT_FOUND");
   }
 
   const user = await currentUser();
   if (!user) {
-    return NextResponse.json(
-      { success: false, message: "User not found" },
-      { status: 404 },
-    );
+    throw new AppError("User not found", 401, "USER_NOT_FOUND");
   }
 
   try {
@@ -39,13 +35,7 @@ export async function POST() {
       { status: 200 },
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: (error as Error).message,
-      },
-      { status: 500 },
-    );
+    handleApiError(error);
   }
 }
 
@@ -59,10 +49,7 @@ export async function GET() {
     });
 
     if (!user) {
-      return NextResponse.json(
-        { success: false, message: "User not found" },
-        { status: 404 },
-      );
+      throw new AppError("User not found", 401, "USER_NOT_FOUND");
     }
 
     const userProgress = await prisma.userProgress.findUnique({
@@ -78,12 +65,6 @@ export async function GET() {
       { status: 200 },
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: (error as Error).message,
-      },
-      { status: 500 },
-    );
+   return handleApiError(error);
   }
 }

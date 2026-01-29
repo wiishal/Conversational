@@ -27,7 +27,7 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
   const [emailIndex, setEmailIndex] = useState<number>(0);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<EmailAnalysis | null>(null);
-
+  const analysisDivRenderRef = useRef<HTMLDivElement | null>(null);
   const [showEmailExample, setShowEmailExample] = useState(false);
 
   async function getAnalysisFunc() {
@@ -47,7 +47,7 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
 
       const res = await getEmailAnalysisController(emailData);
       if (!res.success) {
-        setError("Analysis failed");
+        setError(res.message);
         return;
       }
       setAnalysis(res.analysis);
@@ -114,6 +114,15 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
     setEmailIndex(0);
     getEmailTasksFunc();
   }, [level]);
+
+  useEffect(() => {
+    console.log("useeffect triggerd")
+    if (!analysis) return;
+    analysisDivRenderRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [analysis]);
 
   if (isLoading) return <Loading />;
 
@@ -206,6 +215,7 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
             </button>
           )}
         </div>
+
         <div className="flex lg:flex-row lg:justify-between justify-between gap-3">
           <button
             onClick={() => setShowEmailExample((prev) => !prev)}
@@ -232,8 +242,10 @@ export default function RenderEmailTextArea({ level }: { level: number }) {
           {emailTask[emailIndex]?.example}
         </div>
       )}
+
       {error && <ShowError error={error} closeErrorPopUp={setError} />}
-      <div className="">
+
+      <div className="" ref={analysisDivRenderRef}>
         {isAnalyzing && "Analysing..."}
         {analysis && <EmailAnalysisCard analysis={analysis} />}
       </div>

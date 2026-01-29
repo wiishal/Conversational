@@ -1,3 +1,5 @@
+import { AppError } from "@/lib/error/error";
+import { handleApiError } from "@/lib/error/handleApiError";
 import { runLLM } from "@/lib/LLMRouter";
 import { buildEmailAnalysisPrompt } from "@/lib/prompts/buildEmailAnalysisPrompt";
 import { NextResponse } from "next/server";
@@ -6,24 +8,18 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { subject, writing, audience, tone, purpose } = body;
-
+    console.log("email", subject)
     if (!subject || !writing) {
-      return NextResponse.json(
-        { success: false, message: "Missing fields" },
-        { status: 200 },
-      );
+      throw new AppError("Missing fields", 401, "INVALID_INPUT");
     }
 
     const wordCount = writing.trim().split(/\s+/).length;
 
-    if (wordCount < 0) {
-      return NextResponse.json(
-        { success: false, message: "Minimum 40 words required" },
-        { status: 200 },
-      );
+    if (wordCount < 40) {
+
+      throw new AppError("Minimum 40 words required", 401, "INVALID_INPUT");
     }
 
-    
     const prompt = buildEmailAnalysisPrompt(subject, writing);
     const llmResult = await runLLM(prompt);
 
@@ -47,10 +43,6 @@ export async function POST(req: Request) {
       { status: 200 },
     );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { success: false, message: "Analysis failed" },
-      { status: 500 },
-    );
+    return handleApiError(error);
   }
 }

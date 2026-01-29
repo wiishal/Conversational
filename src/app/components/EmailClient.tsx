@@ -5,7 +5,7 @@ import { SignIn, useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
 import Loading from "@/app/components/ui/Loading";
 import RenderEmailTextArea from "./RenderEmailTextArea";
-import { logUserIdController } from "../controllers/controller.user";
+import { logUserIdController } from "@/controllers/controller.user";
 
 export default function EmailClient() {
   const searchParams = useSearchParams();

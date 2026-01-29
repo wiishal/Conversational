@@ -1,3 +1,5 @@
+import { AppError } from "@/lib/error/error";
+import { handleApiError } from "@/lib/error/handleApiError";
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -6,20 +8,14 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) {
-    return NextResponse.json(
-      { success: false, message: "User not found" },
-      { status: 401 },
-    );
+    throw new AppError("User not found", 401, "USER_NOT_FOUND");
   }
   try {
     const user = await prisma.user.findUnique({
       where: { clerkId: userId },
     });
     if (!user) {
-      return NextResponse.json(
-        { success: false, message: "User not found" },
-        { status: 404 },
-      );
+      throw new AppError("User not found", 401, "USER_NOT_FOUND");
     }
     await prisma.userProgress.update({
       where: { userId: user.id },
@@ -34,12 +30,6 @@ export async function POST(req: Request) {
       { status: 200 },
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: (error as Error).message,
-      },
-      { status: 500 },
-    );
+   return handleApiError(error);
   }
 }

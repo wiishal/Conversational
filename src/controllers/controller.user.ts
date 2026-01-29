@@ -4,26 +4,26 @@ import { fetchUserProgress, logUserId } from "../services/service.user";
 //log user 
 export async function logUserIdController() {
   try {
-    const data = await logUserId();
-    if (!data?.success) {
-      return { success: false, message: "User ID logging failed" };
+    const responce = await logUserId();
+    if (!responce.success) {
+      return { success: false, message: responce.error.message };
     }
     return { success: true, message: "User ID logged successfully" };
   } catch (error) {
     console.error("Error while logging user ID", error);
-    return { success: false, message: "Failed to log user ID" };
+    return { success: false, message: "Network error occur" };
   }
 }
 // fetchUserProgress
 export async function fetchUserProgressController() {
   try {
-    const data = await fetchUserProgress();
-    if (!data?.userProgress) {
-      return { success: false, message: "No user progress found" };
+    const responce = await fetchUserProgress();
+    if (!responce.success) {
+      return { success: false, message: responce.error.message };
     }
-    return { success: true, userProgress: data.userProgress };
+    return { success: true, userProgress: responce.userProgress };
   } catch (error) {
     console.error("Error while getting user progress", error);
-    return { success: false, message: "Failed to fetch user progress" };
+    return { success: false, message: "Network error occur" };
   }
 }

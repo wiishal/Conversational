@@ -1,5 +1,5 @@
-import { Analysis, UserWriting } from "@/types/type";
 import axios from "axios";
+import { Analysis, UserWriting } from "../types/type";
 
 export async function getAnalysis(userWriting: UserWriting) {
   try {

@@ -47,3 +47,5 @@ export type EmailAnalysis = {
   toneMatch: string;
   feedback: string;
 };
+
+export type Analysis = (WritingAnalysis & {subject?:string}) | null

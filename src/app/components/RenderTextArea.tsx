@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import Loading from "./ui/Loading";
-import { getAnalysisController } from "../controllers/controller.write";
-import { UserWriting, WritingAnalysis } from "../types/type";
+import { Analysis, UserWriting, WritingAnalysis } from "../types/type";
 import { AnalysisCard } from "./AnalysisCard";
 import ShowError from "./ShowError";
+import { getAnalysisController } from "@/controllers/controller.write";
 
 type WritingPurpose = "explain" | "persuade" | "reflect" | "request";
 
@@ -13,8 +13,13 @@ export default function RenderTextArea() {
   const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   const [purpose, setPurpose] = useState<WritingPurpose>("explain");
-  const [analysis, setAnalysis] = useState<WritingAnalysis | null>(null);
-  const analysisDivRenderRef = useRef<HTMLDivElement | null>(null) 
+  const [analysis, setAnalysis] = useState<Analysis | null>({
+    clarityScore: 1,
+    structureScore: 1,
+    grammerScore: 1,
+    feedback: "string",
+  });
+  const analysisDivRenderRef = useRef<HTMLDivElement | null>(null);
 
   async function getAnalysisFunc() {
     if (!subject.trim() || !text.trim()) return;
@@ -33,7 +38,11 @@ export default function RenderTextArea() {
         setError(res.message || "Analysis failed");
         return;
       }
-      setAnalysis(res.analysis || null);
+      const analysis: WritingAnalysis & { subject: string } = {
+        ...res.analysis,
+        subject: subject,
+      };
+      setAnalysis(analysis || null);
     } catch (error) {
       setError("Failed to analyze writing");
       console.error(error);
@@ -41,12 +50,13 @@ export default function RenderTextArea() {
       setIsAnalyzing(false);
     }
   }
-const scrollToAnalysisDiv = () => {
+  const scrollToAnalysisDiv = () => {
     analysisDivRenderRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  useEffect(()=>{
-    scrollToAnalysisDiv()
-  },[analysis])
+
+  useEffect(() => {
+    scrollToAnalysisDiv();
+  }, [analysis]);
 
   const wordCount = text.trim().split(/\s+/).filter(Boolean).length || 0;
 
@@ -54,9 +64,8 @@ const scrollToAnalysisDiv = () => {
     <div className="flex flex-col w-full max-w-6xl mx-auto space-y-16 sm:py-12 px-4">
       <div className="flex flex-row justify-between border-b pb-4">
         <div className="flex gap-4">
-
-        <h1 className="text-4xl font-extrabold">Write</h1>
-        {error && <ShowError error={error} closeErrorPopUp={setError}/>}
+          <h1 className="text-4xl font-extrabold">Write</h1>
+          {error && <ShowError error={error} closeErrorPopUp={setError} />}
         </div>
         <button
           disabled={!subject.trim() || !text.trim()}
@@ -116,14 +125,15 @@ const scrollToAnalysisDiv = () => {
           placeholder={`Opening thought\n \nMain idea\n \nSupporting points\n \nConclusion`}
         />
       </div>
+
       <div ref={analysisDivRenderRef}>
-      {isAnalyzing ? "processing....":""}
-      {analysis && (
-        <div  className="border px-3 py-3 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent text-sm whitespace-pre-wrap transition">
-          <AnalysisCard analysis={analysis} />
-        </div>
-      )}
-      </ div>
+        {isAnalyzing ? "Processing...." : ""}
+        {analysis && (
+          <div className="border px-3 py-3 rounded-xl bg-accent focus:outline-none focus:ring-1 focus:ring-accent text-sm whitespace-pre-wrap transition">
+            <AnalysisCard analysis={analysis} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

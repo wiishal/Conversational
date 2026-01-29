@@ -3,12 +3,11 @@ import {  EmailAnalysisPayload, EmailTask, } from "../types/type";
 
 export async function getEmailTasksController(level:number): Promise<{ success: boolean; tasks?: EmailTask[]; message: string }> {
   try {
-    const data = await getEmailTasks(level);
-    console.log(data, "getEmailTasksController");
-    if (!data?.tasks) {
-      return { success: false, message: data.error?.message || "No tasks found" };
+    const responce = await getEmailTasks(level);
+    if (!responce.success) {
+      return { success: false, message: responce.error?.message || "No tasks found" };
     }
-    return { success: true, tasks: data.tasks, message: "Email subjects fetched successfully" };
+    return { success: true, tasks: responce.tasks, message: "Email subjects fetched successfully" };
   } catch (error) {
     console.error("Error while getting email tasks", error);
     return { success: false, message: "Failed to fetch email tasks" };
@@ -17,14 +16,14 @@ export async function getEmailTasksController(level:number): Promise<{ success: 
 
 
 export async function getEmailAnalysisController(userEmailWriting: EmailAnalysisPayload) {
-    const userEmailWritingJson: string = JSON.stringify(userEmailWriting);
 
   try {
-    const data = await getEmailAnalysis(userEmailWritingJson)
-    if (!data?.analysis) {
-      return { success: false, message: data?.error?.message || "No analysis found" };
+    const responce = await getEmailAnalysis(userEmailWriting)
+    console.log(responce)
+    if (!responce.success) {
+      return { success: false, message: responce.error?.message || "No analysis found" };
     }
-    return { success: true, analysis: data.analysis };
+    return { success: true, analysis: responce.analysis };
   } catch (error) {
     console.error("Error while getting analysis", error);
     return { success: false, message: "Failed to fetch analysis" };
@@ -36,11 +35,11 @@ export async function getEmailAnalysisController(userEmailWriting: EmailAnalysis
 export async function updateEmailLevelController() {
 
   try {
-    const data = await updateEmailLevel()
-    if (!data?.success) {
-      return { success: false, message:data?.error?.message || "Failed to update email level" };
+    const responce= await updateEmailLevel()
+    if (!responce.success) {
+      return { success: false, message:responce.error?.message || "Failed to update email level" };
     }
-    return { success: true, analysis: data.analysis };
+    return { success: true, analysis: responce.analysis };
   } catch (error) {
     console.error("Error while getting analysis", error);
     return { success: false, message: "Failed to fetch analysis" };

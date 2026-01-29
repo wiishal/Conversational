@@ -1,5 +1,6 @@
-import { getAnalysis, saveAnalysis } from "@/services/services.write";
-import { Analysis, UserWriting } from "@/types/type";
+import { success } from "zod";
+import { getAnalysis, saveAnalysis } from "../services/services.write";
+import { Analysis, emailAnalysis, UserWriting } from "../types/type";
 
 export async function getAnalysisController(userWriting: UserWriting) {
   try {

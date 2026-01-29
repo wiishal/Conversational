@@ -1,4 +1,5 @@
 import { AppError } from "@/lib/error/error";
+import { handleApiError } from "@/lib/error/handleApiError";
 import { runLLM } from "@/lib/LLMRouter";
 import { buildWriteAnalysisPrompt } from "@/lib/prompts/buildWriteAnalysisPropmt";
 import { NextResponse } from "next/server";
@@ -10,13 +11,18 @@ export async function POST(req: Request) {
 
     console.log("Received for analysis:", { subject, writing });
 
-    // 1️⃣ Input validation (client error)
     if (!subject || !writing) {
       throw new AppError(
         "Subject and writing are required",
         400,
         "INVALID_INPUT",
       );
+    }
+
+    const wordCount = writing.trim().split(/\s+/).length;
+
+    if (wordCount < 40) {
+      throw new AppError("Minimum 40 words required", 401, "INVALID_INPUT");
     }
 
     const prompt = buildWriteAnalysisPrompt(subject, writing);
@@ -49,31 +55,4 @@ function safeParseJSON(text: string) {
       "INVALID_LLM_RESPONSE",
     );
   }
-}
-
-function handleApiError(error: any) {
-
-  if (error instanceof AppError) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: {
-          code: error.code,
-          message: error.message,
-        },
-      },
-      { status: error.status },
-    );
-  }
-
-  return NextResponse.json(
-    {
-      success: false,
-      error: {
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Write analysis failed",
-      },
-    },
-    { status: 500 },
-  );
 }
