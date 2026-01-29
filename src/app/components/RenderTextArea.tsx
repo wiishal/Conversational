@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import Loading from "./ui/Loading";
-import { Analysis, UserWriting, WritingAnalysis } from "../types/type";
 import { AnalysisCard } from "./AnalysisCard";
 import ShowError from "./ShowError";
 import { getAnalysisController } from "@/controllers/controller.write";
+import { Analysis, UserWriting, WritingAnalysis } from "@/types/type";
 
 type WritingPurpose = "explain" | "persuade" | "reflect" | "request";
 
@@ -13,12 +13,7 @@ export default function RenderTextArea() {
   const [subject, setSubject] = useState("");
   const [text, setText] = useState("");
   const [purpose, setPurpose] = useState<WritingPurpose>("explain");
-  const [analysis, setAnalysis] = useState<Analysis | null>({
-    clarityScore: 1,
-    structureScore: 1,
-    grammerScore: 1,
-    feedback: "string",
-  });
+  const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const analysisDivRenderRef = useRef<HTMLDivElement | null>(null);
 
   async function getAnalysisFunc() {

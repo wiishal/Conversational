@@ -1,4 +1,4 @@
-import { EmailAnalysis } from "../types/type";
+import { EmailAnalysis } from "@/types/type";
 
 export default function EmailAnalysisCard({
   analysis,

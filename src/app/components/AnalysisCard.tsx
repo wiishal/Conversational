@@ -1,6 +1,5 @@
 import { saveAnalysisController } from "@/controllers/controller.write";
-import { WritingAnalysis } from "../types/type";
-type Analysis = (WritingAnalysis & {subject?:string})
+import { Analysis } from "@/types/type";
 
 
 export function AnalysisCard({ analysis }: { analysis: Analysis }) {

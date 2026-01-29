@@ -3,20 +3,13 @@ import { useRouter } from "next/navigation";
 import ShowError from "./ShowError";
 
 import Loading from "./ui/Loading";
-import {
-  EmailAnalysis,
-  EmailAnalysisPayload,
-  EmailTask,
-  EmailTaskWithWriting,
-} from "../types/type";
 
-import {
-  getEmailAnalysisController,
-  getEmailTasksController,
-} from "../controllers/controller.email";
-import { updateEmailLevel } from "../services/service.email";
+
 import { useUser } from "@clerk/nextjs";
 import EmailAnalysisCard from "./EmailAnalysisCard";
+import { EmailAnalysis, EmailAnalysisPayload, EmailTask, EmailTaskWithWriting } from "@/types/type";
+import { getEmailAnalysisController, getEmailTasksController } from "@/controllers/controller.email";
+import { updateEmailLevel } from "@/services/service.email";
 
 export default function RenderEmailTextArea({ level }: { level: number }) {
   const router = useRouter();
